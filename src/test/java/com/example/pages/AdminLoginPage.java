@@ -20,7 +20,7 @@ public class AdminLoginPage extends BasePage {
 
     public void enterUsername(String username) {
         WebElement usernameField = driver.findElement(usernameInput);
-        typeText(usernameField, username); // מה־BasePage
+        typeText(usernameField, username);
     }
 
     public void enterPassword(String password) {
