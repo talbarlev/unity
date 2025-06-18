@@ -1,14 +1,17 @@
 package com.example.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class AdminLoginPage extends BasePage {
 
-    private By usernameInput = By.id("username");
-    private By passwordInput = By.id("password");
-    private By loginButton = By.id("loginButton");
+    private By usernameInput = By.name("email");
+    private By passwordInput = By.name("password");
+    private By loginButton = By.xpath("//button[text()='Login']");
 
     public AdminLoginPage(WebDriver driver) {
         super(driver);
@@ -18,18 +21,25 @@ public class AdminLoginPage extends BasePage {
         driver.get("http://localhost:3000/admin/login");
     }
 
-    public void enterUsername(String username) {
-        WebElement usernameField = driver.findElement(usernameInput);
-        typeText(usernameField, username);
+    protected void enterUsername(String username) {
+        WebElement usernameFieldElement = driver.findElement(usernameInput);
+        this.typeText(usernameFieldElement, username);
     }
 
-    public void enterPassword(String password) {
-        WebElement passwordField = driver.findElement(passwordInput);
-        typeText(passwordField, password);
+    protected void enterPassword(String password) {
+        WebElement passwordFieldElement = driver.findElement(passwordInput);
+        this.typeText(passwordFieldElement, password);
     }
 
-    public void clickLogin() {
-        WebElement loginBtn = driver.findElement(loginButton);
-        click(loginBtn);
+    protected void clickLogin() {
+        WebElement loginButtonElement = driver.findElement(loginButton);
+
+        this.click(loginButtonElement);
+    }
+
+    public void login(String username, String password) {
+        this.enterUsername(username);
+        this.enterPassword(password);
+        this.clickLogin();
     }
 }

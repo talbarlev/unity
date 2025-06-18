@@ -2,7 +2,7 @@
 <suite name="Demo Suite">
     <test name="Demo Test">
         <classes>
-            <class name="com.example.tests.GoogleTest"></class>
+            <class name="com.example.tests.LoginTest"></class>
         </classes>
     </test>
 </suite>

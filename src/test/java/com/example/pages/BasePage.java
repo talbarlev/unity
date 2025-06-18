@@ -1,26 +1,31 @@
 package com.example.pages;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+
 // TODO : check whats still relvant
-public class BasePage {
 
-    protected WebDriver driver;
-    final private WebDriverWait wait;
-
+public abstract class BasePage extends Base {
     public BasePage(WebDriver driver) {
-        this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        super(driver);
     }
 
     protected void click(WebElement element) {
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        element.click();
+
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+
+            element.click();
+
+        } catch (Exception e) {
+            System.out.println("⚠️ Regular click failed, falling back to JS click: " + e.getMessage());
+
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        }
     }
+
 
     protected void typeText(WebElement element, String text) {
         wait.until(ExpectedConditions.visibilityOf(element));
