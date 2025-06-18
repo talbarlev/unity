@@ -7,9 +7,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 // TODO : check whats still relvant
 
 public abstract class BasePage extends Base {
+
     public BasePage(WebDriver driver) {
         super(driver);
     }
+
+//    protected void waitForPageToLoad() {
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(PageLocator));
+//    }
 
     protected void click(WebElement element) {
 
