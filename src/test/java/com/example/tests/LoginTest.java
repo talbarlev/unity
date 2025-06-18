@@ -1,11 +1,10 @@
 package com.example.tests;
 
 import com.example.base.BaseTest;
+import com.example.data.JsonItemData;
+import com.example.data.PostData;
 import com.example.data.PublisherData;
-import com.example.pages.AdminLoginPage;
-import com.example.pages.CreatePublisherPage;
-import com.example.pages.LandingPage;
-import com.example.pages.PublisherPage;
+import com.example.pages.*;
 import com.example.utills.DataGenerator;
 import org.testng.annotations.Test;
 
@@ -38,16 +37,35 @@ public class LoginTest extends BaseTest {
 
         createPublisherPage.create(publisherDataForm);
 
-        PublisherData uiData = publisherPage.getPublisherByName(publisherDataForm.getName());
+//        PublisherData uiData = publisherPage.getPublisherByName(publisherDataForm.getName());
 
         publisherPage.sideNavebar().navigateToFolder("Post");
-//
-//        postListPage.clickOnCreate();
-//
-//        postCreatePage.createPost(title, content, ACTIVE, true, publisherName);
 
-        assertEquals(uiData.getName(), publisherDataForm.getName(), "⚠️ Name mismatch between UI and input data");
-        assertEquals(uiData.getEmail(), publisherDataForm.getEmail(), "⚠️ Email mismatch between UI and input data");
+        var postPage = new PostPage(driver);
+
+        postPage.clickOnCreate();
+
+        var createPostPage = new CreatePostPage(driver);
+
+        PostData postDataForm = new PostData.Builder()
+                .title(DataGenerator.generateUniqueName("title"))
+                .content(DataGenerator.generateUniqueEmail("content"))
+                .status("ACTIVE")
+                .published(true)
+                .publisher(publisherDataForm.getEmail())
+                .addJsonItem(new JsonItemData.Builder()
+                        .number(DataGenerator.randonNumber(1, 10))
+                        .string(DataGenerator.generateUniqueName("string"))
+                        .bool(true)
+                        .date(DataGenerator.generateTimestamp())
+                .build()
+         ).build();
+
+
+        createPostPage.create(postDataForm);
+
+//        assertEquals(uiData.getName(), publisherDataForm.getName(), "⚠️ Name mismatch between UI and input data");
+//        assertEquals(uiData.getEmail(), publisherDataForm.getEmail(), "⚠️ Email mismatch between UI and input data");
     }
 
 

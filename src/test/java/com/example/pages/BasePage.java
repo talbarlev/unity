@@ -42,4 +42,15 @@ public abstract class BasePage extends Base {
         wait.until(ExpectedConditions.visibilityOf(element));
         return element.getText();
     }
+
+    // TODO : if more selects are apears put the String in a desagnated file
+    protected void selectReactOptionByLabel(String labelText, String optionText) {
+        String dropdownXpath = String.format("//label[text()='%s']/following::div[contains(@class,'control')][1]", labelText);
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(dropdownXpath)));
+        dropdown.click();
+
+        String optionXpath = String.format("//div[contains(@class,'option') and text()='%s']", optionText);
+        WebElement option = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(optionXpath)));
+        option.click();
+    }
 }

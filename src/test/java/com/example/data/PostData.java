@@ -1,18 +1,23 @@
 package com.example.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PostData {
     private String title;
     private String content;
     private String status;
     private boolean published;
     private String publisher;
+    private List<JsonItemData> jsonItems;
 
-    public PostData(String title, String content, String status, boolean published, String publisher) {
+    public PostData(String title, String content, String status, boolean published, String publisher, List<JsonItemData> jsonItems) {
         this.title = title;
         this.content = content;
         this.status = status;
         this.published = published;
         this.publisher = publisher;
+        this.jsonItems = jsonItems != null ? jsonItems : new ArrayList<>();
     }
 
     public String getTitle() {
@@ -35,12 +40,17 @@ public class PostData {
         return publisher;
     }
 
+    public List<JsonItemData> getJsonItems() {
+        return jsonItems;
+    }
+
     public static class Builder {
         private String title;
         private String content;
         private String status;
         private boolean published = false;
         private String publisher;
+        private List<JsonItemData> jsonItems = new ArrayList<>();
 
         public Builder title(String title) {
             this.title = title;
@@ -67,8 +77,18 @@ public class PostData {
             return this;
         }
 
+        public Builder addJsonItem(JsonItemData item) {
+            this.jsonItems.add(item);
+            return this;
+        }
+
+        public Builder jsonItems(List<JsonItemData> items) {
+            this.jsonItems = items;
+            return this;
+        }
+
         public PostData build() {
-            return new PostData(title, content, status, published, publisher);
+            return new PostData(title, content, status, published, publisher, jsonItems);
         }
     }
 }
