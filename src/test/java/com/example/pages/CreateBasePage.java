@@ -19,4 +19,6 @@ public abstract class CreateBasePage extends HomePage {
     }
 
     public abstract void create(Object data);
+
+
 }

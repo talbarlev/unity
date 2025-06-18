@@ -40,7 +40,7 @@ public class LoginTest extends BaseTest {
 
         PublisherData uiData = publisherPage.getPublisherByName(publisherDataForm.getName());
 
-//        publishCreatePage.sideList.navigateToTab(post);
+        publisherPage.sideNavebar().navigateToFolder("Post");
 //
 //        postListPage.clickOnCreate();
 //

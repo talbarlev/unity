@@ -1,17 +1,13 @@
 package com.example.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public abstract class ListBasePage extends HomePage {
 
@@ -25,49 +21,68 @@ public abstract class ListBasePage extends HomePage {
     }
 
     public void clickOnCreate() {
-        this.click(driver.findElement(createNewButton));
+        WebElement createButton = driver.findElement(createNewButton);
+        this.click(createButton);
     }
 
     public Map<String, String> getRowDataByText(String expectedText) {
+        waitForTableToLoad();
+
+        List<String> headerTexts = extractHeaders();
+        WebElement matchingRow = findMatchingRow(expectedText);
+
+        return extractRowData(matchingRow, headerTexts);
+    }
+
+    private void waitForTableToLoad() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(rowsLocator));
         wait.until(ExpectedConditions.visibilityOfElementLocated(headers));
+    }
 
-        List<WebElement> rows = driver.findElements(rowsLocator);
+    private List<String> extractHeaders() {
         List<WebElement> headerElements = driver.findElements(headers);
 
         System.out.println("🧠 Number of headers: " + headerElements.size());
-        for (WebElement h : headerElements) {
-            System.out.println("📋 Header: " + h.getText());
+        for (WebElement header : headerElements) {
+            System.out.println("📋 Header: " + this.getText(header));
         }
 
+        return headerElements.stream()
+                .map(el -> el.getText().trim())
+                .toList();
+    }
+
+    private WebElement findMatchingRow(String expectedText) {
+        List<WebElement> rows = driver.findElements(rowsLocator);
+
         for (WebElement row : rows) {
-            String rowText = row.getText();
+            String rowText = this.getText(row);
             if (rowText.contains(expectedText)) {
                 System.out.println("🔍 Matching row found: " + rowText);
-
-                List<WebElement> cells = row.findElements(cellsLocator);
-                Map<String, String> rowData = new HashMap<>();
-
-                for (int i = 0; i < Math.min(headerElements.size(), cells.size()); i++) {
-                    String header = headerElements.get(i).getText().trim();
-                    String cellValue = cells.get(i).getText().trim();
-
-                    if (!header.isEmpty()) {
-                        rowData.put(header, cellValue);
-                        System.out.println("➡️ " + header + " = " + cellValue);
-                    } else {
-                        System.out.println("⚠️ Skipping cell with empty header: '" + cellValue + "'");
-                    }
-                }
-
-                System.out.println("✅ Final rowData: " + rowData);
-                return rowData;
+                return row;
             }
         }
 
-        // No matching row
         throw new RuntimeException("❌ Row with text '" + expectedText + "' was not found.");
     }
 
+    private Map<String, String> extractRowData(WebElement row, List<String> headers) {
+        List<WebElement> cells = row.findElements(cellsLocator);
+        Map<String, String> rowData = new HashMap<>();
 
+        for (int i = 0; i < Math.min(headers.size(), cells.size()); i++) {
+            String header = headers.get(i);
+            String cellValue = cells.get(i).getText().trim();
+
+            if (!header.isEmpty()) {
+                rowData.put(header, cellValue);
+                System.out.println("➡️ " + header + " = " + cellValue);
+            } else {
+                System.out.println("⚠️ Skipping cell with empty header: '" + cellValue + "'");
+            }
+        }
+
+        System.out.println("✅ Final rowData: " + rowData);
+        return rowData;
+    }
 }

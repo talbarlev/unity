@@ -8,7 +8,7 @@ public class PublisherData {
     public PublisherData(String name, String email, Integer count) {
         this.name = name;
         this.email = email;
-        this.count = count; // ← שים לב שזה תוקן
+        this.count = count;
     }
 
     public String getName() {

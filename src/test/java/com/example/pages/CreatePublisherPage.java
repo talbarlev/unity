@@ -10,8 +10,6 @@ public class CreatePublisherPage extends CreateBasePage {
     private By nameInput = By.id("name");
     private By emailInput = By.id("email");
 
-
-
     public CreatePublisherPage(WebDriver driver) {
         super(driver);
     }
