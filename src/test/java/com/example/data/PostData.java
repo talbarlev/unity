@@ -91,4 +91,9 @@ public class PostData {
             return new PostData(title, content, status, published, publisher, jsonItems);
         }
     }
+
+    public PostData copy() {
+        List<JsonItemData> copiedJsonItems = new ArrayList<>(this.jsonItems);
+        return new PostData(title, content, status, published, publisher, copiedJsonItems);
+    }
 }

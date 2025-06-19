@@ -42,6 +42,7 @@ public class PostTests extends BaseTest {
         postPage.clickOnCreate();
 
         var createPostPage = new FormPostPage(driver);
+
         PostData postDataForm = new PostData.Builder()
                 .title(DataGenerator.generateUniqueName("title"))
                 .content(DataGenerator.generateUniqueEmail("content"))
@@ -53,8 +54,8 @@ public class PostTests extends BaseTest {
                         .string(DataGenerator.generateUniqueName("string"))
                         .bool(true)
                         .date(DataGenerator.generateTimestamp())
-                        .build()
-                ).build();
+                        .build())
+                        .build();
         createPostPage.create(postDataForm);
 
         PostData postDataAfterCreation = postPage.getPostByTitle(postDataForm.getTitle());

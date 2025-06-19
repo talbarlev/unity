@@ -32,7 +32,6 @@ public abstract class HttpClient {
     protected Response postRequest(String endpoint, Object body) {
         return given()
                 .contentType("application/json")
-
                 .cookie("adminjs", token)
                 .body(body)
                 .log().all()
@@ -44,15 +43,5 @@ public abstract class HttpClient {
                 .response();
     }
 
-    protected Response patchRequest(String endpoint, Object body) {
-        return given()
-                .body(body)
-                .log().all()
-                .when()
-                .patch(baseUrl + endpoint)
-                .then()
-                .log().all()
-                .extract()
-                .response();
-    }
+
 }
