@@ -35,10 +35,12 @@ public abstract class ListBasePage extends HomePage {
         return extractRowData(matchingRow, headerTexts);
     }
 
-    public void clickOnEdit(String expectedText) {
+    public void clickOnEditInRow(String expectedText) {
         hoverActionsButtonInRow(expectedText);
 
-        safeClick(editButton);
+        WebElement editButtonOfRow = findMatchingRow(expectedText).findElement(editButton);
+
+        safeClick(editButtonOfRow);
     }
 
     public void hoverActionsButtonInRow(String expectedText) {

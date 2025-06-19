@@ -32,9 +32,8 @@ public abstract class BasePage extends Base {
         }
         throw new RuntimeException("Failed to type after 3 attempts due to stale element: " + locator);
     }
-
     /**
-     * Clicks an element safely, with retries for common failures like stale or intercepted elements.
+     * Safely clicks an element found by a locator, with retry and fallback to JS click.
      */
     protected void safeClick(By locator) {
         int attempts = 0;
@@ -52,14 +51,40 @@ public abstract class BasePage extends Base {
             }
         }
 
-        // Fallback to JS click if normal click fails
         try {
             WebElement fallbackElement = driver.findElement(locator);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fallbackElement);
         } catch (Exception jsException) {
-            throw new RuntimeException("Failed to click on element: " + locator, jsException);
+            throw new RuntimeException("Failed to click element: " + locator, jsException);
         }
     }
+
+    /**
+     * Safely clicks an already located WebElement, with retry and fallback to JS click.
+     */
+    protected void safeClick(WebElement element) {
+        int attempts = 0;
+        while (attempts < 3) {
+            try {
+                wait.until(ExpectedConditions.elementToBeClickable(element));
+                element.click();
+                return;
+            } catch (StaleElementReferenceException | ElementClickInterceptedException e) {
+                System.out.println("🔁 Element click failed. Retrying... Attempt #" + (attempts + 1));
+                attempts++;
+            } catch (Exception e) {
+                System.out.println("⚠️ Unexpected click failure: " + e.getMessage());
+                break;
+            }
+        }
+
+        try {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        } catch (Exception jsException) {
+            throw new RuntimeException("Failed to click element: " + element, jsException);
+        }
+    }
+
 
     /**
      * Returns the text of an element located by a given locator.
