@@ -2,20 +2,17 @@ package com.example.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
-public abstract class CreateBasePage extends HomePage {
+public abstract class FormBasePage extends HomePage {
 
     protected By saveButton = By.cssSelector("[data-testid='button-save']");
 
-    public CreateBasePage(WebDriver driver) {
+    public FormBasePage(WebDriver driver) {
         super(driver);
     }
 
     public void clickOnSave() {
-        WebElement createButton = driver.findElement(saveButton);
-
-        this.click(createButton);
+        safeClick(saveButton);
     }
 
     public abstract void create(Object data);

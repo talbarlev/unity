@@ -3,14 +3,13 @@ package com.example.pages;
 import com.example.data.PublisherData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
-public class CreatePublisherPage extends CreateBasePage {
+public class FormPublisherPage extends FormBasePage {
 
     private By nameInput = By.id("name");
     private By emailInput = By.id("email");
 
-    public CreatePublisherPage(WebDriver driver) {
+    public FormPublisherPage(WebDriver driver) {
         super(driver);
     }
 
@@ -28,13 +27,11 @@ public class CreatePublisherPage extends CreateBasePage {
     }
 
     protected void enterName(String name) {
-        WebElement nameFieldElement = driver.findElement(nameInput);
-        this.typeText(nameFieldElement, name);
+        safeTypeText(nameInput, name);
     }
 
     protected void enterEmail(String email) {
-        WebElement emailFieldElement = driver.findElement(emailInput);
-        this.typeText(emailFieldElement, email);
+        safeTypeText(emailInput, email);
     }
 
 

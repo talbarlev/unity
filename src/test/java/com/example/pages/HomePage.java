@@ -11,7 +11,5 @@ public abstract class HomePage extends BasePage {
     public SideNavbar sideNavebar() {
         return new SideNavbar(driver);
     }
-
-
 }
-//
+

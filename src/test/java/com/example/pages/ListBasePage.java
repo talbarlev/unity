@@ -21,8 +21,7 @@ public abstract class ListBasePage extends HomePage {
     }
 
     public void clickOnCreate() {
-        WebElement createButton = driver.findElement(createNewButton);
-        this.click(createButton);
+        safeClick(createNewButton);
     }
 
     public Map<String, String> getRowDataByText(String expectedText) {
@@ -44,7 +43,7 @@ public abstract class ListBasePage extends HomePage {
 
         System.out.println("🧠 Number of headers: " + headerElements.size());
         for (WebElement header : headerElements) {
-            System.out.println("📋 Header: " + this.getText(header));
+            System.out.println("📋 Header: " + header.getText());
         }
 
         return headerElements.stream()
@@ -56,7 +55,7 @@ public abstract class ListBasePage extends HomePage {
         List<WebElement> rows = driver.findElements(rowsLocator);
 
         for (WebElement row : rows) {
-            String rowText = this.getText(row);
+            String rowText = row.getText();
             if (rowText.contains(expectedText)) {
                 System.out.println("🔍 Matching row found: " + rowText);
                 return row;

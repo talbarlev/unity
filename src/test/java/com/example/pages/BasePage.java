@@ -3,47 +3,82 @@ package com.example.pages;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-
-// TODO : check whats still relvant
-
+/**
+ * Abstract base class for all Page Objects.
+ * Provides reusable and safe interaction methods for Selenium tests.
+ */
 public abstract class BasePage extends Base {
 
     public BasePage(WebDriver driver) {
         super(driver);
     }
 
-//    protected void waitForPageToLoad() {
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(PageLocator));
-//    }
+    /**
+     * Types text into an element located by a given locator,
+     * retrying if the element becomes stale.
+     */
+    protected void safeTypeText(By locator, String text) {
+        int attempts = 0;
+        while (attempts < 3) {
+            try {
+                WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+                element.clear();
+                element.sendKeys(text);
+                return;
+            } catch (StaleElementReferenceException e) {
+                System.out.println("🔁 Element went stale during typing. Retrying... Attempt #" + (attempts + 1));
+                attempts++;
+            }
+        }
+        throw new RuntimeException("Failed to type after 3 attempts due to stale element: " + locator);
+    }
 
-    protected void click(WebElement element) {
+    /**
+     * Clicks an element safely, with retries for common failures like stale or intercepted elements.
+     */
+    protected void safeClick(By locator) {
+        int attempts = 0;
+        while (attempts < 3) {
+            try {
+                WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+                element.click();
+                return;
+            } catch (StaleElementReferenceException | ElementClickInterceptedException e) {
+                System.out.println("🔁 Click failed. Retrying... Attempt #" + (attempts + 1));
+                attempts++;
+            } catch (Exception e) {
+                System.out.println("⚠️ Unexpected click failure: " + e.getMessage());
+                break;
+            }
+        }
 
+        // Fallback to JS click if normal click fails
         try {
-            wait.until(ExpectedConditions.visibilityOf(element));
-            wait.until(ExpectedConditions.elementToBeClickable(element));
-
-            element.click();
-
-        } catch (Exception e) {
-            System.out.println("⚠️ Regular click failed, falling back to JS click: " + e.getMessage());
-
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+            WebElement fallbackElement = driver.findElement(locator);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fallbackElement);
+        } catch (Exception jsException) {
+            throw new RuntimeException("Failed to click on element: " + locator, jsException);
         }
     }
 
-
-    protected void typeText(WebElement element, String text) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        element.clear();
-        element.sendKeys(text);
+    /**
+     * Returns the text of an element located by a given locator.
+     */
+    protected String safeGetText(By locator) {
+        try {
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return element.getText();
+        } catch (StaleElementReferenceException e) {
+            System.out.println("⚠️ Element went stale during getText. Retrying once...");
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return element.getText();
+        }
     }
 
-    protected String getText(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        return element.getText();
-    }
-
-    // TODO : if more selects are apears put the String in a desagnated file
+    /**
+     * Selects an option from a React-style dropdown based on its label and option text.
+     * Assumes dropdowns are built using divs with custom classNames.
+     */
     protected void selectReactOptionByLabel(String labelText, String optionText) {
         String dropdownXpath = String.format("//label[text()='%s']/following::div[contains(@class,'control')][1]", labelText);
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(dropdownXpath)));

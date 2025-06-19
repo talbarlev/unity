@@ -4,21 +4,19 @@ import com.example.data.JsonItemData;
 import com.example.data.PostData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 
-public class CreatePostPage extends CreateBasePage {
+public class FormPostPage extends FormBasePage {
     private By titleInput = By.id("title");
     private By contentInput = By.id("content");
     private By publishedCheckbox = By.id("published");
     private By addJSON = By.cssSelector("[data-testid='someJson-add']");
-    private By jsonNumber = By.id("someJson.0.number");
-    private By jsonString = By.id("someJson.0.string");
-    private By jsonBoolean = By.id("someJson.0.boolean");
-    private By jsonDate = By.id("someJson.0.array");
+    private By jsonNumber = By.cssSelector("#someJson\\.0\\.number");
+    private By jsonString = By.cssSelector("#someJson\\.0\\.string");
+    private By jsonBoolean = By.cssSelector("#someJson\\.0\\.boolean");
+    private By jsonDate = By.cssSelector(".adminjs_DatePicker input"); // FLAKEY
 
-    public CreatePostPage(WebDriver driver) {
+
+    public FormPostPage(WebDriver driver) {
         super(driver);
     }
 
@@ -36,7 +34,6 @@ public class CreatePostPage extends CreateBasePage {
         setPublished(postData.isPublished());
         choosePublisher(postData.getPublisher());
 
-        // TODO : seprate
         clickAddJson();
 
         JsonItemData jsonItemData = postData.getJsonItems().get(0);
@@ -44,18 +41,18 @@ public class CreatePostPage extends CreateBasePage {
         setJsonString(jsonItemData.getString());
         setJsonNumber(jsonItemData.getNumber());
         setJsonBoolean(jsonItemData.getBool());
-        setJsonDate(jsonItemData.getDate());
+         setJsonDate(jsonItemData.getDate());
 
         this.clickOnSave();
     }
 
 
     private void enterTitle(String title) {
-        typeText(driver.findElement(titleInput), title);
+        safeTypeText(titleInput, title);
     }
 
     private void enterContent(String content) {
-        typeText(driver.findElement(contentInput), content);
+        safeTypeText(contentInput, content);
     }
 
     private void selectStatus(String status) {
@@ -65,7 +62,7 @@ public class CreatePostPage extends CreateBasePage {
     // Validate already checked
     private void setPublished(boolean toPublished) {
         if (toPublished) {
-            click(driver.findElement(publishedCheckbox));
+            safeClick(publishedCheckbox);
         }
     }
 
@@ -74,29 +71,23 @@ public class CreatePostPage extends CreateBasePage {
     }
 
     private void clickAddJson() {
-        click(driver.findElement(addJSON));
-    }
-
-    private void setJsonNumber(int number) {
-        WebElement numberFieldElement = driver.findElement(jsonNumber);
-        this.typeText(numberFieldElement, String.valueOf(number));
+        safeClick(addJSON);
     }
 
     private void setJsonString(String string) {
-        WebElement stringFieldElement = driver.findElement(jsonString);
-        this.typeText(stringFieldElement, string);
+        safeTypeText(jsonString, string);
+    }
+
+    private void setJsonNumber(int number) {
+        safeTypeText(jsonNumber, String.valueOf(number));
     }
 
     private void setJsonBoolean(boolean bool) {
-        WebElement booleanCheckboxElement = driver.findElement(jsonString);
-
-        this.click(booleanCheckboxElement);
+        safeClick(jsonBoolean);
     }
 
     private void setJsonDate(String date) {
-        WebElement dateFieldElement = driver.findElement(jsonDate);
-
-        this.typeText(dateFieldElement, date);
+        safeTypeText(jsonDate, date);
     }
 }
 

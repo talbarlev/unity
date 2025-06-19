@@ -33,7 +33,7 @@ public class LoginTest extends BaseTest {
                 .email(DataGenerator.generateUniqueEmail("haimi"))
                 .build();
 
-        var createPublisherPage = new CreatePublisherPage(driver);
+        var createPublisherPage = new FormPublisherPage(driver);
 
         createPublisherPage.create(publisherDataForm);
 
@@ -45,7 +45,7 @@ public class LoginTest extends BaseTest {
 
         postPage.clickOnCreate();
 
-        var createPostPage = new CreatePostPage(driver);
+        var createPostPage = new FormPostPage(driver);
 
         PostData postDataForm = new PostData.Builder()
                 .title(DataGenerator.generateUniqueName("title"))
@@ -63,6 +63,7 @@ public class LoginTest extends BaseTest {
 
 
         createPostPage.create(postDataForm);
+
 
 //        assertEquals(uiData.getName(), publisherDataForm.getName(), "⚠️ Name mismatch between UI and input data");
 //        assertEquals(uiData.getEmail(), publisherDataForm.getEmail(), "⚠️ Email mismatch between UI and input data");

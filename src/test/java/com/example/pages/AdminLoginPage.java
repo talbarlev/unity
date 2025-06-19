@@ -22,19 +22,15 @@ public class AdminLoginPage extends BasePage {
     }
 
     protected void enterUsername(String username) {
-        WebElement usernameFieldElement = driver.findElement(usernameInput);
-        this.typeText(usernameFieldElement, username);
+        safeTypeText(usernameInput, username);
     }
 
     protected void enterPassword(String password) {
-        WebElement passwordFieldElement = driver.findElement(passwordInput);
-        this.typeText(passwordFieldElement, password);
+        safeTypeText(passwordInput, password);
     }
 
     protected void clickLogin() {
-        WebElement loginButtonElement = driver.findElement(loginButton);
-
-        this.click(loginButtonElement);
+        safeClick(loginButton);
     }
 
     public void login(String username, String password) {
