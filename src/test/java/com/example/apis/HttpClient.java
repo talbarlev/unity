@@ -18,6 +18,8 @@ public abstract class HttpClient {
 
     protected Response getRequest(String endpoint) {
         return given()
+                .contentType("application/json")
+                .cookie("adminjs", token)
                 .log().all()
                 .when()
                 .get(baseUrl + endpoint)
@@ -29,6 +31,9 @@ public abstract class HttpClient {
 
     protected Response postRequest(String endpoint, Object body) {
         return given()
+                .contentType("application/json")
+
+                .cookie("adminjs", token)
                 .body(body)
                 .log().all()
                 .when()

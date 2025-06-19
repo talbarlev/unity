@@ -3,12 +3,12 @@ package com.example.data;
 public class PublisherData {
     private String name;
     private String email;
-    private Integer count;
+   // private Integer count;
 
-    public PublisherData(String name, String email, Integer count) {
+    public PublisherData(String name, String email) {
         this.name = name;
         this.email = email;
-        this.count = count;
+        //this.count = count;
     }
 
     public String getName() {
@@ -19,14 +19,14 @@ public class PublisherData {
         return email;
     }
 
-    public Integer getCount() {
-        return count;
-    }
+//    public Integer getCount() {
+      //  return count;
+//    }
 
     public static class Builder {
         private String name;
         private String email;
-        private Integer count = -1;
+//        private Integer count = -1;
 
         public Builder name(String name) {
             this.name = name;
@@ -38,13 +38,15 @@ public class PublisherData {
             return this;
         }
 
-        public Builder count(Integer count) {
-            this.count = count;
-            return this;
-        }
+     //   public Builder count(Integer count) {
+       //     this.count = count;
+       //     return this;
+       // }
 
         public PublisherData build() {
-            return new PublisherData(name, email, count);
+//            return new PublisherData(name, email, count);
+            return new PublisherData(name, email);
+
         }
     }
 }

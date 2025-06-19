@@ -1,53 +1,35 @@
 package com.example.tests;
 
+import com.example.apis.AuthUtills;
+import com.example.apis.PublisherClient;
 import com.example.base.BaseTest;
-import io.restassured.RestAssured;
+import com.example.data.PublisherData;
+import com.example.utills.DataGenerator;
 import io.restassured.response.Response;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
 
 public class APItests extends BaseTest {
+    static String cookie;
 
-    @Test
-    public void testAPI() {
-        RestAssured.baseURI = "http://localhost:3000";
-
-        String cookie = getSessionCookie();
-
-        Response response = RestAssured.
-                given()
-                .multiPart("name", "Itay Ben Publisher")
-                .multiPart("email", "כדככגעגכעגעגכעכג")
-                .cookie("adminjs", cookie)
-         .header("Cookie", cookie)
-                .log().all()
-                .when().post("/admin/api/resources/Publisher/actions/new");
-
-        System.out.print("Response status " + response.getStatusCode() + " " + response.getBody().asString());
+    @BeforeTest
+    public void setUp() {
+        cookie = AuthUtills.getSessionCookie();
     }
 
+    @Test
+    public void testCreatePublisher() {
+        PublisherClient api = new PublisherClient(cookie);
 
-    public static String getSessionCookie() {
-        RestAssured.baseURI = "http://localhost:3000";
+        PublisherData publisherDataForm = new PublisherData.Builder()
+                .name(DataGenerator.generateUniqueName("HaimSheliAPI"))
+                .email(DataGenerator.generateUniqueEmail("haimi"))
+                .build();
 
-        Response response = given()
-                .multiPart("email", "admin@example.com")
-                .multiPart("password", "password")
-                .when()
-                .post("/admin/login")
-                .then()
-                .extract().response();
+        Response res = api.createPublisher(publisherDataForm);
 
-        String cookieValue = response.getCookie("adminjs");
-
-        if (cookieValue == null) {
-            throw new RuntimeException("❌ Login failed, cookie 'adminjs' not found.");
-        }
-
-        System.out.println("✅ Logged in. Cookie: " + cookieValue);
-        return cookieValue;
+        res.then().statusCode(200);
+        System.out.println("📦 Response: " + res.asPrettyString());
     }
 }

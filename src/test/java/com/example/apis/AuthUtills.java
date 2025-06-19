@@ -7,11 +7,11 @@ import static io.restassured.RestAssured.given;
 
 public class AuthUtills {
 
-    private final static String BASE_URL = "http://localhost:3000";
-    private final static String EMAIL = "admin@example.com";
-    private final static String PASSWORD = "password";
-    private final static String ADMIN_JS_COOKIE = "adminjs";
-    private final static String ENDPOINT = "/admin/login";
+     final static String BASE_URL = "http://localhost:3000";
+     final static String EMAIL = "admin@example.com";
+     final static String PASSWORD = "password";
+     final static String ADMIN_JS_COOKIE = "adminjs";
+     final static String ENDPOINT = "/admin/login";
 
     public static String getSessionCookie() {
         RestAssured.baseURI = BASE_URL;

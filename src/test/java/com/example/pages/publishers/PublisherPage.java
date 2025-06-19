@@ -30,7 +30,7 @@ public class PublisherPage extends ListBasePage {
         return new PublisherData.Builder()
                 .name(rowData.get(COLUMN_NAME)) // שם הכותרת המדויק בטבלה
                 .email(rowData.get(COLUMN_EMAIL))
-                .count(Integer.valueOf(rowData.get(COLUMN_COUNT))) // לדוגמה - עמודה שמכילה מספר
+//                .count(Integer.valueOf(rowData.get(COLUMN_COUNT))) // לדוגמה - עמודה שמכילה מספר
                 .build();
     }
 
