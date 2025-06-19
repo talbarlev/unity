@@ -1,4 +1,4 @@
-package com.example.pages;
+package com.example.pages.main;
 
 import org.openqa.selenium.WebDriver;
 

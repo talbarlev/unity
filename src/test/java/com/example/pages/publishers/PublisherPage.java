@@ -1,10 +1,9 @@
-package com.example.pages;
+package com.example.pages.publishers;
 
 import com.example.data.PublisherData;
+import com.example.pages.common.ListBasePage;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
-import java.util.List;
 import java.util.Map;
 
 public class PublisherPage extends ListBasePage {

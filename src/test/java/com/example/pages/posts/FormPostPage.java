@@ -1,7 +1,8 @@
-package com.example.pages;
+package com.example.pages.posts;
 
 import com.example.data.JsonItemData;
 import com.example.data.PostData;
+import com.example.pages.common.FormBasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

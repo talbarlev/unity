@@ -1,0 +1,53 @@
+package com.example.apis;
+
+import io.restassured.response.Response;
+
+import static io.restassured.RestAssured.*;
+
+public abstract class HttpClient {
+    protected String token;
+    protected String baseUrl;
+
+    public HttpClient(String token) {
+        this.token = token;
+    }
+
+    protected void setBaseUrl(String url) {
+        this.baseUrl = url;
+    }
+
+    protected Response getRequest(String endpoint) {
+        return given()
+                .log().all()
+                .when()
+                .get(baseUrl + endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+    }
+
+    protected Response postRequest(String endpoint, Object body) {
+        return given()
+                .body(body)
+                .log().all()
+                .when()
+                .post(baseUrl + endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+    }
+
+    protected Response patchRequest(String endpoint, Object body) {
+        return given()
+                .body(body)
+                .log().all()
+                .when()
+                .patch(baseUrl + endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+    }
+}

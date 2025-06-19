@@ -1,6 +1,7 @@
-package com.example.pages;
+package com.example.pages.publishers;
 
 import com.example.data.PublisherData;
+import com.example.pages.common.FormBasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

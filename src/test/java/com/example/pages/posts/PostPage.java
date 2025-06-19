@@ -1,6 +1,7 @@
-package com.example.pages;
+package com.example.pages.posts;
 
 import com.example.data.PostData;
+import com.example.pages.common.ListBasePage;
 import org.openqa.selenium.WebDriver;
 
 import java.util.Map;

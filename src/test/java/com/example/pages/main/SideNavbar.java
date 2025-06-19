@@ -1,6 +1,6 @@
-package com.example.components;
+package com.example.pages.main;
 
-import com.example.pages.Base;
+import com.example.pages.common.Base;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

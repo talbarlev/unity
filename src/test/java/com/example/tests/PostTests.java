@@ -5,15 +5,20 @@ import com.example.data.JsonItemData;
 import com.example.data.PostData;
 import com.example.data.PublisherData;
 import com.example.pages.*;
+import com.example.pages.main.LandingPage;
+import com.example.pages.posts.FormPostPage;
+import com.example.pages.posts.PostPage;
+import com.example.pages.publishers.FormPublisherPage;
+import com.example.pages.publishers.PublisherPage;
 import com.example.utills.DataGenerator;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class LoginTest extends BaseTest {
+public class PostTests extends BaseTest {
 
     @Test
-    public void loginTest() {
+    public void createPostWithPublisherAndEditStatus() {
         var loginPage = new AdminLoginPage(driver);
         loginPage.goTo();
         loginPage.login("admin@example.com", "password");

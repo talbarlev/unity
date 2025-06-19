@@ -1,6 +1,6 @@
-package com.example.pages;
+package com.example.pages.main;
 
-import com.example.components.SideNavbar;
+import com.example.pages.common.BasePage;
 import org.openqa.selenium.WebDriver;
 
 public abstract class HomePage extends BasePage {

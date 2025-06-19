@@ -1,5 +1,6 @@
-package com.example.pages;
+package com.example.pages.common;
 
+import com.example.pages.main.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
