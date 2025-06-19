@@ -12,9 +12,11 @@ import java.util.Map;
 public abstract class ListBasePage extends HomePage {
 
     protected By headers = By.cssSelector("thead td");
-    protected By cellsLocator = By.tagName("td");
+    protected By cells = By.tagName("td");
     protected By createNewButton = By.cssSelector("[data-testid='action-new']");
-    protected By rowsLocator = By.cssSelector("tbody tr");
+    protected By rows = By.cssSelector("tbody tr");
+    protected By settingsButton = By.cssSelector("[data-testid='actions-dropdown'] svg");
+    protected By editButton = By.cssSelector("[data-testid='action-edit']");
 
     public ListBasePage(WebDriver driver) {
         super(driver);
@@ -33,8 +35,24 @@ public abstract class ListBasePage extends HomePage {
         return extractRowData(matchingRow, headerTexts);
     }
 
+    public void clickOnEdit(String expectedText) {
+        hoverActionsButtonInRow(expectedText);
+
+        safeClick(editButton);
+    }
+
+    public void hoverActionsButtonInRow(String expectedText) {
+        WebElement matchingRow = findMatchingRow(expectedText);
+
+        WebElement actionsButton = matchingRow.findElement(settingsButton);
+
+        wait.until(ExpectedConditions.visibilityOf(actionsButton));
+
+        hoverOnElement(actionsButton);
+    }
+
     private void waitForTableToLoad() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(rowsLocator));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(rows));
         wait.until(ExpectedConditions.visibilityOfElementLocated(headers));
     }
 
@@ -52,7 +70,7 @@ public abstract class ListBasePage extends HomePage {
     }
 
     private WebElement findMatchingRow(String expectedText) {
-        List<WebElement> rows = driver.findElements(rowsLocator);
+        List<WebElement> rows =  wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(this.rows));
 
         for (WebElement row : rows) {
             String rowText = row.getText();
@@ -66,7 +84,7 @@ public abstract class ListBasePage extends HomePage {
     }
 
     private Map<String, String> extractRowData(WebElement row, List<String> headers) {
-        List<WebElement> cells = row.findElements(cellsLocator);
+        List<WebElement> cells = row.findElements(this.cells);
         Map<String, String> rowData = new HashMap<>();
 
         for (int i = 0; i < Math.min(headers.size(), cells.size()); i++) {

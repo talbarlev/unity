@@ -46,6 +46,9 @@ public class FormPostPage extends FormBasePage {
         this.clickOnSave();
     }
 
+    public void selectStatus(String status) {
+        selectReactOptionByLabel("Status", status);
+    }
 
     private void enterTitle(String title) {
         safeTypeText(titleInput, title);
@@ -53,10 +56,6 @@ public class FormPostPage extends FormBasePage {
 
     private void enterContent(String content) {
         safeTypeText(contentInput, content);
-    }
-
-    private void selectStatus(String status) {
-        selectReactOptionByLabel("Status", status);
     }
 
     // Validate already checked

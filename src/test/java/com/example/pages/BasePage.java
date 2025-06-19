@@ -88,4 +88,11 @@ public abstract class BasePage extends Base {
         WebElement option = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(optionXpath)));
         option.click();
     }
+
+    /**
+     * Performs a mouse hover over the element located by the given locator.
+     */
+    protected void hoverOnElement(WebElement element) {
+        actions.moveToElement(element).perform();
+    }
 }

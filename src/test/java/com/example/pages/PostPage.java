@@ -6,4 +6,6 @@ public class PostPage extends ListBasePage {
     public PostPage(WebDriver driver) {
         super(driver);
     }
+
+
 }

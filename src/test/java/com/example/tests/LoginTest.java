@@ -13,7 +13,7 @@ import static org.testng.Assert.assertEquals;
 public class LoginTest extends BaseTest {
 
     @Test
-    public void loginTest()  {
+    public void loginTest() {
         var loginPage = new AdminLoginPage(driver);
 
         loginPage.goTo();
@@ -58,11 +58,22 @@ public class LoginTest extends BaseTest {
                         .string(DataGenerator.generateUniqueName("string"))
                         .bool(true)
                         .date(DataGenerator.generateTimestamp())
-                .build()
-         ).build();
+                        .build()
+                ).build();
 
 
         createPostPage.create(postDataForm);
+
+
+//        PostData postDataAfterCreation = postPage.getRowDataByText(postDataForm.getTitle());
+//        String status = postPage.getRowDataByText(postDataForm.getTitle()).get("Status");
+
+//        postPage.clickOnEdit(postDataForm.getTitle());
+
+        var editPostPage = new FormPostPage(driver);
+
+        editPostPage.selectStatus("REMOVED");
+        editPostPage.clickOnSave();
 
 
 //        assertEquals(uiData.getName(), publisherDataForm.getName(), "⚠️ Name mismatch between UI and input data");
