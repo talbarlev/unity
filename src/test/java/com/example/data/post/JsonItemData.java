@@ -1,4 +1,4 @@
-package com.example.data;
+package com.example.data.post;
 
 public class JsonItemData {
     private Integer number;

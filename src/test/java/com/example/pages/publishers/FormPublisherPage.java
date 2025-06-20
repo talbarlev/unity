@@ -1,6 +1,6 @@
 package com.example.pages.publishers;
 
-import com.example.data.PublisherData;
+import com.example.data.publisher.PublisherData;
 import com.example.pages.common.FormBasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,9 +9,15 @@ public class FormPublisherPage extends FormBasePage {
 
     private By nameInput = By.id("name");
     private By emailInput = By.id("email");
+    private final By formLocator = By.cssSelector("form[data-css='Publisher-new-form']");
 
     public FormPublisherPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    protected By getPageIdentifier() {
+        return this.formLocator;
     }
 
     @Override

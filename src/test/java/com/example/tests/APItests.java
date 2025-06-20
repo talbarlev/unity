@@ -3,10 +3,11 @@ package com.example.tests;
 import com.example.apis.AuthUtills;
 import com.example.apis.HTTPclients.PostClient;
 import com.example.apis.HTTPclients.PublisherClient;
-import com.example.data.JsonItemData;
-import com.example.data.PostData;
-import com.example.data.PublisherData;
+import com.example.data.post.JsonItemData;
+import com.example.data.post.PostData;
+import com.example.data.publisher.PublisherData;
 import com.example.utills.DataGenerator;
+import com.example.utills.CommomAPI;
 import io.restassured.response.Response;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -92,11 +93,7 @@ public class APItests   {
 
     @AfterTest
     public void deleteAllData() {
-        PostClient postClient = new PostClient(cookie);
-        PublisherClient publisherClient = new PublisherClient(cookie);
-
-        postClient.deletePostById(createdPostId);
-        publisherClient.deletePublisherById(createdPublisherId);
+        CommomAPI.deletePost(createdPostId, createdPublisherId, cookie);
     }
 }
 

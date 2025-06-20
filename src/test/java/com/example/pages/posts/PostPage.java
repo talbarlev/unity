@@ -1,7 +1,8 @@
 package com.example.pages.posts;
 
-import com.example.data.PostData;
+import com.example.data.post.PostData;
 import com.example.pages.common.ListBasePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import java.util.Map;
@@ -14,8 +15,15 @@ public class PostPage extends ListBasePage {
     private static final String COLUMN_PUBLISHED = "Published";
     private static final String COLUMN_PUBLISHER = "Publisher";
 
+    private final By listSection = By.cssSelector("section[data-css='Post-list']");
+
     public PostPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    protected By getPageIdentifier() {
+        return this.listSection;
     }
 
     public PostData getPostByTitle(String title) {

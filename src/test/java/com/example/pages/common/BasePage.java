@@ -1,17 +1,35 @@
 package com.example.pages.common;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 /**
  * Abstract base class for all Page Objects.
  * Provides reusable and safe interaction methods for Selenium tests.
  */
-public abstract class BasePage extends Base {
+public abstract class BasePage  {
+
+    protected WebDriver driver;
+    protected WebDriverWait wait;
+    protected Actions actions;
+
 
     public BasePage(WebDriver driver) {
-        super(driver);
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        By pageIdentifier = getPageIdentifier();
+        if (pageIdentifier == null) {
+            throw new IllegalArgumentException("Page identifier must not be null");
+        }
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(pageIdentifier));
     }
+
+    protected abstract By getPageIdentifier(); // כל מחלקה תגדיר מזהה ייחודי
 
     /**
      * Types text into an element located by a given locator,
@@ -119,5 +137,18 @@ public abstract class BasePage extends Base {
      */
     protected void hoverOnElement(WebElement element) {
         actions.moveToElement(element).perform();
+    }
+
+    protected boolean isDisplayed(By locator) {
+        try {
+            return driver.findElement(locator).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private void waitForPageToLoad() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(getPageIdentifier()));
     }
 }
