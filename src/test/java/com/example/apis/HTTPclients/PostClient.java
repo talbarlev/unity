@@ -8,12 +8,9 @@ import java.util.Map;
 
 public class PostClient extends HttpClient {
 
-    private static final String RESOURCE_PATH = "/admin/api/resources/Post/actions/new";
-
     public PostClient(String token) {
         super(token);
         setBaseUrl("http://localhost:3000/admin/api/resources/Post");
-
     }
 
     public Response createNewPost(Object requestBody) {
@@ -34,7 +31,7 @@ public class PostClient extends HttpClient {
     }
 
     public Response deletePostById(String postId) {
-        return deleteRequest("/records/" + postId + "/delete");
+        return postRequest("/records/" + postId + "/delete");
     }
 
 

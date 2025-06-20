@@ -6,7 +6,6 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
 public class AuthUtills {
-
      final static String BASE_URL = "http://localhost:3000";
      final static String EMAIL = "admin@example.com";
      final static String PASSWORD = "password";

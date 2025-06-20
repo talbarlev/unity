@@ -7,6 +7,7 @@ import com.example.data.post.PostData;
 import com.example.data.post.PostStatus;
 import com.example.data.publisher.PublisherData;
 import com.example.factories.TestDataFactory;
+import com.example.utills.CommonAPI;
 import com.example.utills.DataGenerator;
 import io.restassured.response.Response;
 import org.testng.annotations.AfterTest;
@@ -65,6 +66,6 @@ public class APItests {
 
     @AfterTest
     public void deleteAllData() {
-//        CommomAPI.deletePost(createdPostId, createdPublisherId, cookie);
+       CommonAPI.deletePost(createdPostId, createdPublisherId, cookie);
     }
 }

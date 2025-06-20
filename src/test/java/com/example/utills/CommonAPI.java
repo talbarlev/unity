@@ -3,7 +3,7 @@ package com.example.utills;
 import com.example.apis.HTTPclients.PostClient;
 import com.example.apis.HTTPclients.PublisherClient;
 
-public class CommomAPI {
+public class CommonAPI {
 
     public static void deletePost(String postId, String publisherId, String cookie) {
         PostClient postClient = new PostClient(cookie);

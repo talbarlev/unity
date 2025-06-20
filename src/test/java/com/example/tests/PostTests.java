@@ -12,17 +12,19 @@ import com.example.pages.posts.FormPostPage;
 import com.example.pages.posts.PostPage;
 import com.example.pages.publishers.FormPublisherPage;
 import com.example.pages.publishers.PublisherPage;
+import com.example.utills.CommonAPI;
 import com.example.utills.CommonUI;
 import com.example.utills.DataGenerator;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
 public class PostTests extends BaseTest {
 
-//    static String cookie;
-//    private String createdPostId;
-//    private String createdPublisherId;
+    static String cookie;
+    private String createdPostId;
+    private String createdPublisherId;
 
     @Test
     public void createPostWithPublisherAndEditStatus() {
@@ -72,9 +74,9 @@ public class PostTests extends BaseTest {
         //assertEquals(PostStatus.REMOVED, statusAfterEdit);
     }
 
-//    @AfterTest
-//    public void deleteAllData() {
-//            CommomAPI.deletePost(createdPostId, createdPublisherId, cookie);
-//    }
+    @AfterTest
+    public void deleteAllData() {
+            CommonAPI.deletePost(createdPostId, createdPublisherId, cookie);
+    }
 
 }

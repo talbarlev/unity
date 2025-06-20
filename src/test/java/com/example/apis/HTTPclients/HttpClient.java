@@ -17,7 +17,7 @@ public abstract class HttpClient {
     }
 
     protected Response getRequest(String endpoint) {
-        return  given()
+        return given()
                 .contentType("application/json")
                 .cookie("adminjs", token)
                 .log().all()
@@ -43,7 +43,7 @@ public abstract class HttpClient {
                 .response();
     }
 
-    protected Response deleteRequest(String endpoint) {
+        protected Response postRequest(String endpoint) {
         return given()
                 .contentType("application/json")
                 .cookie("adminjs", token)
@@ -55,6 +55,4 @@ public abstract class HttpClient {
                 .extract()
                 .response();
     }
-
-
 }

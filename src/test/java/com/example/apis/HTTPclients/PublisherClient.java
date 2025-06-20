@@ -18,6 +18,6 @@ public class PublisherClient extends HttpClient {
     }
 
     public Response deletePublisherById(String id) {
-        return deleteRequest("/bulk/bulkDelete?recordIds=" + id);
+        return postRequest("/bulk/bulkDelete?recordIds=" + id);
     }
 }
