@@ -2,7 +2,6 @@ package com.example.tests;
 
 import com.example.base.BaseTest;
 import com.example.data.common.Folder;
-import com.example.data.post.JsonItemData;
 import com.example.data.post.PostData;
 import com.example.data.common.Properties;
 import com.example.data.post.PostStatus;
@@ -13,13 +12,10 @@ import com.example.pages.posts.FormPostPage;
 import com.example.pages.posts.PostPage;
 import com.example.pages.publishers.FormPublisherPage;
 import com.example.pages.publishers.PublisherPage;
-import com.example.utills.CommomAPI;
 import com.example.utills.CommonUI;
 import com.example.utills.DataGenerator;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
-import static com.example.tests.APItests.cookie;
 import static org.testng.Assert.assertEquals;
 
 public class PostTests extends BaseTest {

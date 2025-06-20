@@ -7,6 +7,7 @@ import com.example.data.publisher.PublisherData;
 import com.example.utills.DataGenerator;
 
 public class TestDataFactory {
+
     public static PublisherData createPublisher(String name, String email) {
         return new PublisherData.Builder()
                 .name(name)
@@ -14,15 +15,19 @@ public class TestDataFactory {
                 .build();
     }
 
-    public static PostData createPostData(String titlePrefix, String contentPrefix, PostStatus status,
-                                          boolean published, String publisherEmail) {
+    /**
+     * יוצר פוסט עם publisher שהוא ID או Email לפי הצורך
+     */
+    public static PostData createPostData(String title, String content, PostStatus status,
+                                          boolean published, String publisherIdOrEmail) {
         return new PostData.Builder()
-                .title(DataGenerator.generateUniqueName(titlePrefix))
-                .content(DataGenerator.generateUniqueEmail(contentPrefix))
+                .title(title)
+                .content(content)
                 .status(status.toString())
                 .published(published)
-                .publisher(publisherEmail)
-                .addJsonItem(createJsonItemData()).build();
+                .publisher(publisherIdOrEmail)
+                .addJsonItem(createJsonItemData())
+                .build();
     }
 
     public static JsonItemData createJsonItemData() {
@@ -33,6 +38,4 @@ public class TestDataFactory {
                 .date(DataGenerator.generateTimestamp())
                 .build();
     }
-
-
 }

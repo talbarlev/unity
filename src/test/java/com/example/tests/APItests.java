@@ -3,16 +3,15 @@ package com.example.tests;
 import com.example.apis.AuthUtills;
 import com.example.apis.HTTPclients.PostClient;
 import com.example.apis.HTTPclients.PublisherClient;
-import com.example.data.post.JsonItemData;
 import com.example.data.post.PostData;
+import com.example.data.post.PostStatus;
 import com.example.data.publisher.PublisherData;
+import com.example.factories.TestDataFactory;
 import com.example.utills.DataGenerator;
 import io.restassured.response.Response;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 
@@ -28,75 +27,49 @@ public class APItests {
 
     @Test
     public void testCreatePublisher() {
-        String dataPath = "record.params";
+        String publisherName = DataGenerator.generateUniqueName("HaimSheliPublisherAPI");
+        String publisherEmail = DataGenerator.generateUniqueEmail("haimiPublisherAPI");
+        String postTitle = DataGenerator.generateUniqueName("HaimSheliPostAPI");
+        String postContent = DataGenerator.generateUniqueName("HaimSheliPostAPIWOOOO");
 
         PublisherClient publisherClient = new PublisherClient(cookie);
         PostClient postClient = new PostClient(cookie);
 
-        PublisherData publisherDataForm = new PublisherData.Builder()
-                .name(DataGenerator.generateUniqueName("HaimShelidgfAPI"))
-                .email(DataGenerator.generateUniqueEmail("haimiAPI"))
-                .build();
+        PublisherData createPublisherData = TestDataFactory.createPublisher(publisherName, publisherEmail);
+        Response createPubliserResponse = publisherClient.createPublisher(createPublisherData);
+        createPubliserResponse.then().statusCode(200);
+        System.out.println("📦 Publisher Response: " + createPubliserResponse.asPrettyString());
 
-        Response res = publisherClient.createPublisher(publisherDataForm);
-        res.then().statusCode(200);
-        System.out.println("📦 Publisher Response: " + res.asPrettyString());
+        createdPublisherId = createPubliserResponse.path("record.params.id").toString();
 
-        createdPublisherId = res.path("record.params.id").toString();
+        PostData createPostData = TestDataFactory.createPostData(postTitle, postContent, PostStatus.ACTIVE, true, createdPublisherId);
+        Response createPostResponse = postClient.createNewPost(createPostData);
+        createPostResponse.then().statusCode(200);
+        System.out.println("📦 Post Create Response: " + createPostResponse.asPrettyString());
 
-        PostData postData = new PostData.Builder()
-                .title(DataGenerator.generateUniqueName("HaimShftfelfכiAPI"))
-                .content("1")
-                .status("ACTIVE")
-                .published(true)
-                .publisher(createdPublisherId)
-                .addJsonItem(new JsonItemData.Builder()
-                        .number(DataGenerator.randonNumber(1, 10))
-                        .string(DataGenerator.generateUniqueName("string"))
-                        .bool(true)
-                        .date(DataGenerator.generateTimestamp())
-                        .build())
-                .build();
+        createdPostId = createPostResponse.path("record.params.id").toString();
 
-        Response res2 = postClient.createNewPost(postData);
-        res2.then().statusCode(200);
-        System.out.println("📦 Post Create Response: " + res2.asPrettyString());
+        PostData editPostData = TestDataFactory.createPostData(postTitle, postContent, PostStatus.REMOVED, true, createdPublisherId);
+        Response editPostResponse = postClient.editPostById(editPostData, createdPostId);
+        editPostResponse.then().statusCode(200);
+        System.out.println("📦 Post Edit Response: " + editPostResponse.asPrettyString());
 
-        // ⬇️ תיקון כאן - שימוש בתגובה של יצירת הפוסט (res2) ולא ביצירת הpublisher
-        createdPostId = res2.path("record.params.id").toString();
+        Response getPostByIdAfterEditResponse = postClient.getPostById(createdPostId);
+        getPostByIdAfterEditResponse.then().statusCode(200);
 
-        PostData editData = new PostData.Builder()
-                .title("Updated Title")
-                .content("Updated Content")
-                .status("REMOVED")
-                .published(true)
-                .publisher(createdPublisherId)
-                .build();
+//        Map<String, Object> postParams = getPostByIdAfterEditResponse.path("record.params");
+//        String title = (String) postParams.get("title");
+//        String content = (String) postParams.get("content");
+//        String status = (String) postParams.get("status");
 
-        Response res3 = postClient.editPostById(editData, createdPostId);
-        res3.then().statusCode(200);
-        System.out.println("📦 Post Edit Response: " + res3.asPrettyString());
-
-        Response res4 = postClient.getPostById(createdPostId);
-        res4.then().statusCode(200);
-
-        Map<String, Object> postParams = res4.path("record.params");
-        String title = (String) postParams.get("title");
-        String content = (String) postParams.get("content");
-        String status = (String) postParams.get("status");
-
-        assertEquals(title, editData.getTitle());
-        assertEquals(res2.path("record.params.status"), "ACTIVE");
-        assertEquals(status, "REMOVED");
+        assertEquals(editPostResponse.path("record.params.title"), editPostData.getTitle());
+        assertEquals(createPostResponse.path("record.params.status"), "ACTIVE");
+        assertEquals(editPostResponse.path("record.params.status"), "REMOVED");
     }
+
 
     @AfterTest
     public void deleteAllData() {
-        PostClient postClient = new PostClient(cookie);
-        PublisherClient publisherClient = new PublisherClient(cookie);
-
-        postClient.deletePostById(createdPostId);
-        publisherClient.deletePublisherById(createdPublisherId);
+//        CommomAPI.deletePost(createdPostId, createdPublisherId, cookie);
     }
 }
-

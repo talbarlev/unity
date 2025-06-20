@@ -35,9 +35,7 @@ public class SideNavbar extends BasePage {
 
         WebElement targetFolder = this.getFolderElementByName(folder.getLabel());
 
-        wait.until(ExpectedConditions.elementToBeClickable(targetFolder));
-
-        targetFolder.click();
+        safeClick(targetFolder);
     }
 
     private WebElement getFolderElementByName(String name) {
