@@ -57,11 +57,6 @@ public class APItests {
         Response getPostByIdAfterEditResponse = postClient.getPostById(createdPostId);
         getPostByIdAfterEditResponse.then().statusCode(200);
 
-//        Map<String, Object> postParams = getPostByIdAfterEditResponse.path("record.params");
-//        String title = (String) postParams.get("title");
-//        String content = (String) postParams.get("content");
-//        String status = (String) postParams.get("status");
-
         assertEquals(editPostResponse.path("record.params.title"), editPostData.getTitle());
         assertEquals(createPostResponse.path("record.params.status"), "ACTIVE");
         assertEquals(editPostResponse.path("record.params.status"), "REMOVED");

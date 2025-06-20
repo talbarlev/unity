@@ -37,4 +37,5 @@ public class PostClient extends HttpClient {
         return deleteRequest("/records/" + postId + "/delete");
     }
 
+
 }

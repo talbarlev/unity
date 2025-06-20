@@ -17,7 +17,7 @@ public abstract class HttpClient {
     }
 
     protected Response getRequest(String endpoint) {
-        return given()
+        return  given()
                 .contentType("application/json")
                 .cookie("adminjs", token)
                 .log().all()
