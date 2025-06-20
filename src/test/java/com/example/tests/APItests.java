@@ -3,9 +3,9 @@ package com.example.tests;
 import com.example.apis.AuthUtills;
 import com.example.apis.HTTPclients.PostClient;
 import com.example.apis.HTTPclients.PublisherClient;
-import com.example.data.JsonItemData;
-import com.example.data.PostData;
-import com.example.data.PublisherData;
+import com.example.data.post.JsonItemData;
+import com.example.data.post.PostData;
+import com.example.data.publisher.PublisherData;
 import com.example.utills.DataGenerator;
 import io.restassured.response.Response;
 import org.testng.annotations.AfterTest;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 
-public class APItests   {
+public class APItests {
     static String cookie;
     private String createdPostId;
     private String createdPublisherId;
@@ -42,7 +42,7 @@ public class APItests   {
         res.then().statusCode(200);
         System.out.println("📦 Publisher Response: " + res.asPrettyString());
 
-         createdPublisherId = res.path("record.params.id").toString();
+        createdPublisherId = res.path("record.params.id").toString();
 
         PostData postData = new PostData.Builder()
                 .title(DataGenerator.generateUniqueName("HaimShftfelfכiAPI"))
@@ -63,7 +63,7 @@ public class APItests   {
         System.out.println("📦 Post Create Response: " + res2.asPrettyString());
 
         // ⬇️ תיקון כאן - שימוש בתגובה של יצירת הפוסט (res2) ולא ביצירת הpublisher
-         createdPostId = res2.path("record.params.id").toString();
+        createdPostId = res2.path("record.params.id").toString();
 
         PostData editData = new PostData.Builder()
                 .title("Updated Title")

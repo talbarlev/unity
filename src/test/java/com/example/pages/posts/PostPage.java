@@ -1,6 +1,6 @@
 package com.example.pages.posts;
 
-import com.example.data.PostData;
+import com.example.data.post.PostData;
 import com.example.pages.common.ListBasePage;
 import org.openqa.selenium.WebDriver;
 

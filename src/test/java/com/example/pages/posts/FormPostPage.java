@@ -1,21 +1,17 @@
 package com.example.pages.posts;
 
-import com.example.data.JsonItemData;
-import com.example.data.PostData;
+import com.example.data.post.JsonItemData;
+import com.example.data.post.PostData;
 import com.example.pages.common.FormBasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class FormPostPage extends FormBasePage {
-    private By titleInput = By.id("title");
-    private By contentInput = By.id("content");
-    private By publishedCheckbox = By.id("published");
-    private By addJSON = By.cssSelector("[data-testid='someJson-add']");
-    private By jsonNumber = By.cssSelector("#someJson\\.0\\.number");
-    private By jsonString = By.cssSelector("#someJson\\.0\\.string");
-    private By jsonBoolean = By.cssSelector("#someJson\\.0\\.boolean");
-    private By jsonDate = By.cssSelector(".adminjs_DatePicker input"); // FLAKEY
-
+    private final By titleInput = By.id("title");
+    private final By contentInput = By.id("content");
+    private final By publishedCheckbox = By.id("published");
+    private final By addJSON = By.cssSelector("[data-testid='someJson-add']");
+    private final By formLocator = By.cssSelector("form[data-css='Post-new-form']");
 
     public FormPostPage(WebDriver driver) {
         super(driver);
@@ -27,68 +23,40 @@ public class FormPostPage extends FormBasePage {
             throw new IllegalArgumentException("Expected PostData");
         }
 
+
         PostData postData = (PostData) data;
 
-        enterTitle(postData.getTitle());
-        enterContent(postData.getContent());
+        fillBasicFields(postData);
+        fillJsonItems(postData);
+        clickOnSave();
+    }
+
+    private void fillBasicFields(PostData postData) {
+        safeTypeText(titleInput, postData.getTitle());
+        safeTypeText(contentInput, postData.getContent());
         selectStatus(postData.getStatus());
-        setPublished(postData.isPublished());
-        choosePublisher(postData.getPublisher());
 
-        clickAddJson();
+        if (postData.isPublished()) {
+            safeClick(publishedCheckbox);
+        }
 
-        JsonItemData jsonItemData = postData.getJsonItems().get(0);
+        selectReactOptionByLabel("Publisher", postData.getPublisher());
+    }
 
-        setJsonString(jsonItemData.getString());
-        setJsonNumber(jsonItemData.getNumber());
-        setJsonBoolean(jsonItemData.getBool());
-         setJsonDate(jsonItemData.getDate());
 
-        this.clickOnSave();
+    private void fillJsonItems(PostData postData) {
+        for (int i = 0; i < postData.getJsonItems().size(); i++) {
+            JsonItemData item = postData.getJsonItems().get(i);
+            clickAddJson();
+            new JsonItemComponent(driver, i).fill(item); // ממלא אותו לפי האינדקס
+        }
     }
 
     public void selectStatus(String status) {
         selectReactOptionByLabel("Status", status);
     }
 
-    private void enterTitle(String title) {
-        safeTypeText(titleInput, title);
-    }
-
-    private void enterContent(String content) {
-        safeTypeText(contentInput, content);
-    }
-
-    // Validate already checked
-    private void setPublished(boolean toPublished) {
-        if (toPublished) {
-            safeClick(publishedCheckbox);
-        }
-    }
-
-    private void choosePublisher(String publisherName) {
-        selectReactOptionByLabel("Publisher", publisherName);
-    }
-
     private void clickAddJson() {
         safeClick(addJSON);
     }
-
-    private void setJsonString(String string) {
-        safeTypeText(jsonString, string);
-    }
-
-    private void setJsonNumber(int number) {
-        safeTypeText(jsonNumber, String.valueOf(number));
-    }
-
-    private void setJsonBoolean(boolean bool) {
-        safeClick(jsonBoolean);
-    }
-
-    private void setJsonDate(String date) {
-        safeTypeText(jsonDate, date);
-    }
 }
-
-

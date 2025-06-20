@@ -1,6 +1,6 @@
 package com.example.pages.publishers;
 
-import com.example.data.PublisherData;
+import com.example.data.publisher.PublisherData;
 import com.example.pages.common.FormBasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -34,6 +34,5 @@ public class FormPublisherPage extends FormBasePage {
     protected void enterEmail(String email) {
         safeTypeText(emailInput, email);
     }
-
 
 }

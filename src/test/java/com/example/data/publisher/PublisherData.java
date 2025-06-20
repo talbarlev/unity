@@ -1,4 +1,4 @@
-package com.example.data;
+package com.example.data.publisher;
 
 public class PublisherData {
     private String name;

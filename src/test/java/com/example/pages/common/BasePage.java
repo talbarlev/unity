@@ -1,16 +1,27 @@
 package com.example.pages.common;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 /**
  * Abstract base class for all Page Objects.
  * Provides reusable and safe interaction methods for Selenium tests.
  */
-public abstract class BasePage extends Base {
+public abstract class BasePage  {
+
+    protected WebDriver driver;
+    protected WebDriverWait wait;
+    protected Actions actions;
+
 
     public BasePage(WebDriver driver) {
-        super(driver);
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.actions = new Actions(driver);
     }
 
     /**
@@ -119,5 +130,13 @@ public abstract class BasePage extends Base {
      */
     protected void hoverOnElement(WebElement element) {
         actions.moveToElement(element).perform();
+    }
+
+    protected boolean isDisplayed(By locator) {
+        try {
+            return driver.findElement(locator).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
