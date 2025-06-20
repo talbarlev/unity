@@ -1,4 +1,4 @@
-package com.example.apis;
+package com.example.apis.HTTPclients;
 
 import io.restassured.response.Response;
 
@@ -34,6 +34,19 @@ public abstract class HttpClient {
                 .contentType("application/json")
                 .cookie("adminjs", token)
                 .body(body)
+                .log().all()
+                .when()
+                .post(baseUrl + endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+    }
+
+    protected Response deleteRequest(String endpoint) {
+        return given()
+                .contentType("application/json")
+                .cookie("adminjs", token)
                 .log().all()
                 .when()
                 .post(baseUrl + endpoint)

@@ -1,9 +1,8 @@
 package com.example.tests;
 
 import com.example.apis.AuthUtills;
-import com.example.apis.PostClient;
-import com.example.apis.PublisherClient;
-import com.example.base.BaseTest;
+import com.example.apis.HTTPclients.PostClient;
+import com.example.apis.HTTPclients.PublisherClient;
 import com.example.data.JsonItemData;
 import com.example.data.PostData;
 import com.example.data.PublisherData;
@@ -17,8 +16,10 @@ import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 
-public class APItests extends BaseTest {
+public class APItests   {
     static String cookie;
+    private String createdPostId;
+    private String createdPublisherId;
 
     @BeforeTest
     public void setUp() {
@@ -33,22 +34,22 @@ public class APItests extends BaseTest {
         PostClient postClient = new PostClient(cookie);
 
         PublisherData publisherDataForm = new PublisherData.Builder()
-                .name(DataGenerator.generateUniqueName("HaimSheliAPI"))
-                .email(DataGenerator.generateUniqueEmail("haimi"))
+                .name(DataGenerator.generateUniqueName("HaimShelidgfAPI"))
+                .email(DataGenerator.generateUniqueEmail("haimiAPI"))
                 .build();
 
         Response res = publisherClient.createPublisher(publisherDataForm);
         res.then().statusCode(200);
         System.out.println("📦 Publisher Response: " + res.asPrettyString());
 
-        String idOfPublisher = res.path("record.params.id").toString();
+         createdPublisherId = res.path("record.params.id").toString();
 
         PostData postData = new PostData.Builder()
-                .title(DataGenerator.generateUniqueName("HaimSheliAPI"))
+                .title(DataGenerator.generateUniqueName("HaimShftfelfכiAPI"))
                 .content("1")
                 .status("ACTIVE")
                 .published(true)
-                .publisher(idOfPublisher)
+                .publisher(createdPublisherId)
                 .addJsonItem(new JsonItemData.Builder()
                         .number(DataGenerator.randonNumber(1, 10))
                         .string(DataGenerator.generateUniqueName("string"))
@@ -62,21 +63,21 @@ public class APItests extends BaseTest {
         System.out.println("📦 Post Create Response: " + res2.asPrettyString());
 
         // ⬇️ תיקון כאן - שימוש בתגובה של יצירת הפוסט (res2) ולא ביצירת הpublisher
-        String idOfPost = res2.path("record.params.id").toString();
+         createdPostId = res2.path("record.params.id").toString();
 
         PostData editData = new PostData.Builder()
                 .title("Updated Title")
                 .content("Updated Content")
                 .status("REMOVED")
                 .published(true)
-                .publisher(idOfPublisher)
+                .publisher(createdPublisherId)
                 .build();
 
-        Response res3 = postClient.editPostById(editData, idOfPost);
+        Response res3 = postClient.editPostById(editData, createdPostId);
         res3.then().statusCode(200);
         System.out.println("📦 Post Edit Response: " + res3.asPrettyString());
 
-        Response res4 = postClient.getPostById(idOfPost);
+        Response res4 = postClient.getPostById(createdPostId);
         res4.then().statusCode(200);
 
         Map<String, Object> postParams = res4.path("record.params");
@@ -91,8 +92,11 @@ public class APItests extends BaseTest {
 
     @AfterTest
     public void deleteAllData() {
+        PostClient postClient = new PostClient(cookie);
+        PublisherClient publisherClient = new PublisherClient(cookie);
 
-
+        postClient.deletePostById(createdPostId);
+        publisherClient.deletePublisherById(createdPublisherId);
     }
 }
 

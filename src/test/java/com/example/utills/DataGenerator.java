@@ -11,7 +11,7 @@ public class DataGenerator {
     }
 
     public static String generateUniqueName(String prefix) {
-        return prefix + "_" + generateTimestamp();
+        return prefix + "_" + generateTimestamp() + randonNumber(1000, 9999);
     }
 
     public static String generateUniqueEmail(String prefix) {

@@ -29,8 +29,8 @@ public class PostTests extends BaseTest {
         var publisherPage = new PublisherPage(driver);
         publisherPage.clickOnCreate();
         PublisherData publisherDataForm = new PublisherData.Builder()
-                .name(DataGenerator.generateUniqueName("HaimSheli"))
-                .email(DataGenerator.generateUniqueEmail("haimi"))
+                .name(DataGenerator.generateUniqueName("HaimSheliUI"))
+                .email(DataGenerator.generateUniqueEmail("haimiUI"))
                 .build();
 
         var createPublisherPage = new FormPublisherPage(driver);

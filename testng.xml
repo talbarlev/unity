@@ -1,8 +1,10 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="Demo Suite">
-    <test name="Demo Test">
+    <test name="Sainty">
         <classes>
-            <class name="com.example.tests.LoginTest"></class>
+            <class name="com.example.tests.PostTests"></class>
+            <class name="com.example.tests.APItests"></class>
+
         </classes>
     </test>
 </suite>

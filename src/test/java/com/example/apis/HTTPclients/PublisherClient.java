@@ -1,4 +1,4 @@
-package com.example.apis;
+package com.example.apis.HTTPclients;
 
 import io.restassured.response.Response;
 
@@ -15,5 +15,9 @@ public class PublisherClient extends HttpClient {
 
     public Response getPublisher(int id) {
         return getRequest("/" + id);
+    }
+
+    public Response deletePublisherById(String id) {
+        return deleteRequest("/bulk/bulkDelete?recordIds=" + id);
     }
 }

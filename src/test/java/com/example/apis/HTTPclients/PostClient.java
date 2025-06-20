@@ -1,4 +1,4 @@
-package com.example.apis;
+package com.example.apis.HTTPclients;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
@@ -25,13 +25,17 @@ public class PostClient extends HttpClient {
         return getRequest("/records/" + id + "/show");
     }
 
-    public Response editPostById(Object requestBody, String id) {
+    public Response editPostById(Object requestBody, String postId) {
         ObjectMapper mapper = new ObjectMapper();
 
         Map<String, Object> body = mapper.convertValue(requestBody, Map.class);
-        body.put("recordId", id);
+        body.put("recordId", postId);
 
-        return postRequest("/records/" + id + "/edit", requestBody);
+        return postRequest("/records/" + postId + "/edit", requestBody);
+    }
+
+    public Response deletePostById(String postId) {
+        return deleteRequest("/records/" + postId + "/delete");
     }
 
 }
