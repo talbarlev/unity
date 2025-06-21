@@ -1,5 +1,4 @@
-package com.example.apis.HTTPclients;
-
+package com.example.apis.HTTPclients.publisher;
 
 public class PublisherCreateRequest {
     private final String name;

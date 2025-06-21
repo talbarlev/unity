@@ -4,7 +4,7 @@ import com.example.apis.AuthUtills;
 import com.example.apis.HTTPclients.post.PostClient;
 import com.example.apis.HTTPclients.post.PostCreateRequest;
 import com.example.apis.HTTPclients.PublisherClient;
-import com.example.apis.HTTPclients.PublisherCreateRequest;
+import com.example.apis.HTTPclients.publisher.PublisherCreateRequest;
 import com.example.data.post.PostStatus;
 import com.example.utills.CommonAPI;
 import com.example.utills.DataGenerator;
@@ -33,8 +33,8 @@ public class APItests {
         PublisherClient publisherClient = new PublisherClient(cookie);
         PostClient postClient = new PostClient(cookie);
 
-        PublisherCreateRequest createPublisherData = new PublisherCreateRequest(publisherName, publisherEmail);
-        Response createPubliserResponse = publisherClient.createPublisher(createPublisherData);
+        PublisherCreateRequest createPublisherRequest = new PublisherCreateRequest(publisherName, publisherEmail);
+        Response createPubliserResponse = publisherClient.createPublisher(createPublisherRequest);
         createPubliserResponse.then().statusCode(200);
         System.out.println("📦 Publisher Response: " + createPubliserResponse.asPrettyString());
 
