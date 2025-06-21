@@ -112,6 +112,20 @@ public abstract class BasePage  {
     }
 
     /**
+     * Returns the text of a given WebElement with wait and retry on stale reference.
+     */
+    protected String safeGetText(WebElement element) {
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return element.getText();
+        } catch (StaleElementReferenceException e) {
+            System.out.println("⚠️ Element went stale during getText. Retrying once...");
+
+            throw new RuntimeException("❌ Element reference is stale and cannot be recovered without a locator.");
+        }
+    }
+
+    /**
      * Selects an option from a React-style dropdown based on its label and option text.
      * Assumes dropdowns are built using divs with custom classNames.
      */

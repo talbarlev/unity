@@ -15,9 +15,7 @@ public class TestDataFactory {
                 .build();
     }
 
-    /**
-     * יוצר פוסט עם publisher שהוא ID או Email לפי הצורך
-     */
+
     public static PostData createPostData(String title, String content, PostStatus status,
                                           boolean published, String publisherIdOrEmail) {
         return new PostData.Builder()

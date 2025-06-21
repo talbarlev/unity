@@ -1,9 +1,10 @@
 package com.example.tests;
 
+import com.example.apis.AuthUtills;
 import com.example.base.BaseTest;
 import com.example.data.common.Folder;
-import com.example.data.post.PostData;
 import com.example.data.common.Properties;
+import com.example.data.post.PostData;
 import com.example.data.post.PostStatus;
 import com.example.data.publisher.PublisherData;
 import com.example.factories.TestDataFactory;
@@ -15,16 +16,18 @@ import com.example.pages.publishers.PublisherPage;
 import com.example.utills.CommonAPI;
 import com.example.utills.CommonUI;
 import com.example.utills.DataGenerator;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
+import org.testng.annotations.*;
 
 public class PostTests extends BaseTest {
 
-    static String cookie;
-    private String createdPostId;
-    private String createdPublisherId;
+    private static String cookie;
+    private static String createdPostId;
+    private static String createdPublisherId;
+
+    @BeforeClass
+    public void loginToSystem() {
+        cookie = AuthUtills.getSessionCookie();
+    }
 
     @Test
     public void createPostWithPublisherAndEditStatus() {
@@ -43,9 +46,11 @@ public class PostTests extends BaseTest {
         publisherPage.clickOnCreate();
 
         PublisherData publisherDataForm = TestDataFactory.createPublisher(publisherName, publisherEmail);
-
         var createPublisherPage = new FormPublisherPage(driver);
         createPublisherPage.create(publisherDataForm);
+
+        var created = publisherPage.getPublisherByName(publisherName);
+        createdPublisherId = created.getId();
 
         publisherPage.sideNavebar().navigateToFolder(Folder.POST);
 
@@ -53,30 +58,20 @@ public class PostTests extends BaseTest {
         postPage.clickOnCreate();
 
         PostData postDataForm = TestDataFactory.createPostData(postTitle, postContent, PostStatus.ACTIVE, true, publisherEmail);
-
         var createPostPage = new FormPostPage(driver);
         createPostPage.create(postDataForm);
 
-        PostData postDataAfterCreation = postPage.getPostByTitle(postDataForm.getTitle());
-        String statusAfterCreate = postDataAfterCreation.getStatus();
+        createdPostId = String.valueOf(postPage.getPostByTitle(postTitle).getId());
 
         postPage.clickOnEditInRow(postDataForm.getTitle());
-
         var editPostPage = new FormPostPage(driver);
-
         editPostPage.selectStatus(PostStatus.REMOVED.toString());
         editPostPage.clickOnSave();
-
-        PostData postDataAfterEdit = postPage.getPostByTitle(postDataForm.getTitle());
-        String statusAfterEdit = postDataAfterEdit.getStatus();
-
-        //  assertEquals(postDataForm.getStatus(), statusAfterCreate);
-        //assertEquals(PostStatus.REMOVED, statusAfterEdit);
     }
 
-    @AfterTest
-    public void deleteAllData() {
-            CommonAPI.deletePost(createdPostId, createdPublisherId, cookie);
+    @AfterClass
+    public void deleteTestData() {
+        System.out.println("🧼 Cleaning test data");
+        CommonAPI.deletePublisherAndPost(createdPostId, createdPublisherId, cookie);
     }
-
 }

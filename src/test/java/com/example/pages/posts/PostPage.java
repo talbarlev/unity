@@ -13,6 +13,7 @@ public class PostPage extends ListBasePage {
     private static final String COLUMN_STATUS = "Status";
     private static final String COLUMN_PUBLISHED = "Published";
     private static final String COLUMN_PUBLISHER = "Publisher";
+    private static final String COLUMN_ID = "#";
 
     public PostPage(WebDriver driver) {
         super(driver);
@@ -31,6 +32,7 @@ public class PostPage extends ListBasePage {
                 .status(rowData.get(COLUMN_STATUS))
                 .published(isPublished)
                 .publisher(rowData.get(COLUMN_PUBLISHER))
+                .id(rowData.get(COLUMN_ID))
                 .build();
     }
 }

@@ -9,24 +9,20 @@ import java.util.Map;
 public class PublisherPage extends ListBasePage {
     private static final String COLUMN_NAME = "Name";
     private static final String COLUMN_EMAIL = "Email";
+    private static final String COLUMN_ID = "#";
 
     public PublisherPage(WebDriver driver) {
         super(driver);
     }
 
     public PublisherData getPublisherByName(String name) {
-        Map<String, String> rowData =  this.getRowDataByText(name);
-
-        System.out.println("🔍 rowData: " + rowData);
-
-        String countText = rowData.get("#");
-        System.out.println("📦 Extracted count text: '" + countText + "'");
-
+        Map<String, String> rowData = this.getRowDataByText(name);
 
 
         return new PublisherData.Builder()
                 .name(rowData.get(COLUMN_NAME)) // שם הכותרת המדויק בטבלה
                 .email(rowData.get(COLUMN_EMAIL))
+                .id(rowData.get(COLUMN_ID))
                 .build();
     }
 

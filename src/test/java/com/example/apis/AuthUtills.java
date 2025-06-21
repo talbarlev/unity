@@ -22,16 +22,16 @@ public class AuthUtills {
                 .post(ENDPOINT);
 
         if (response.statusCode() != 302 && response.statusCode() != 200) {
-            throw new RuntimeException("❌ Login failed. Status code: " + response.statusCode());
+            throw new RuntimeException("❌ TOKEN failed. Status code: " + response.statusCode());
         }
 
         String cookieValue = response.getCookie(ADMIN_JS_COOKIE);
 
         if (cookieValue == null) {
-            throw new RuntimeException("❌ Login failed, cookie 'adminjs' not found.");
+            throw new RuntimeException("❌ TOKEN failed, cookie 'adminjs' not found.");
         }
 
-        System.out.println("✅ Logged in. Cookie: " + cookieValue);
+        System.out.println("✅ TOKEN. Cookie: " + cookieValue);
 
         return cookieValue;
     }

@@ -6,6 +6,6 @@ public enum PostStatus {
 
     @Override
     public String toString() {
-        return name(); // מחזיר את השם כמו שהוא: "ACTIVE", "REMOVED"
+        return name();
     }
 }

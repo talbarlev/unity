@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostData {
+    private String id; // ✅ New field
     private String title;
     private String content;
     private String status;
@@ -11,13 +12,18 @@ public class PostData {
     private String publisher;
     private List<JsonItemData> jsonItems;
 
-    public PostData(String title, String content, String status, boolean published, String publisher, List<JsonItemData> jsonItems) {
+    public PostData(String id, String title, String content, String status, boolean published, String publisher, List<JsonItemData> jsonItems) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.status = status;
         this.published = published;
         this.publisher = publisher;
         this.jsonItems = jsonItems != null ? jsonItems : new ArrayList<>();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -45,12 +51,18 @@ public class PostData {
     }
 
     public static class Builder {
+        private String id;
         private String title;
         private String content;
         private String status;
         private boolean published = false;
         private String publisher;
         private List<JsonItemData> jsonItems = new ArrayList<>();
+
+        public Builder id(String id) {
+            this.id = id;
+            return this;
+        }
 
         public Builder title(String title) {
             this.title = title;
@@ -88,12 +100,12 @@ public class PostData {
         }
 
         public PostData build() {
-            return new PostData(title, content, status, published, publisher, jsonItems);
+            return new PostData(id, title, content, status, published, publisher, jsonItems);
         }
     }
 
     public PostData copy() {
         List<JsonItemData> copiedJsonItems = new ArrayList<>(this.jsonItems);
-        return new PostData(title, content, status, published, publisher, copiedJsonItems);
+        return new PostData(id, title, content, status, published, publisher, copiedJsonItems);
     }
 }

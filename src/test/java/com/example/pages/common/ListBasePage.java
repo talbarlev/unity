@@ -40,27 +40,29 @@ public abstract class ListBasePage extends HomePage {
         hoverActionsButtonInRow(expectedText);
 
         WebElement editButtonOfRow = findMatchingRow(expectedText).findElement(editButton);
-
         safeClick(editButtonOfRow);
     }
 
     public void hoverActionsButtonInRow(String expectedText) {
         WebElement matchingRow = findMatchingRow(expectedText);
-
         WebElement actionsButton = matchingRow.findElement(settingsButton);
 
         wait.until(ExpectedConditions.visibilityOf(actionsButton));
-
         hoverOnElement(actionsButton);
     }
 
     private void waitForTableToLoad() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(rows));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(headers));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(headers));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(rows));
     }
 
     private List<String> extractHeaders() {
-        List<WebElement> headerElements = driver.findElements(headers);
+        List<WebElement> headerElements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(headers));
 
         System.out.println("🧠 Number of headers: " + headerElements.size());
         for (WebElement header : headerElements) {
@@ -73,10 +75,12 @@ public abstract class ListBasePage extends HomePage {
     }
 
     private WebElement findMatchingRow(String expectedText) {
-        List<WebElement> rows =  wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(this.rows));
+        List<WebElement> allRows = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(rows));
 
-        for (WebElement row : rows) {
-            String rowText = row.getText();
+        for (WebElement row : allRows) {
+            wait.until(ExpectedConditions.visibilityOf(row));
+            String rowText = safeGetText(row);
+
             if (rowText.contains(expectedText)) {
                 System.out.println("🔍 Matching row found: " + rowText);
                 return row;
@@ -87,12 +91,12 @@ public abstract class ListBasePage extends HomePage {
     }
 
     private Map<String, String> extractRowData(WebElement row, List<String> headers) {
-        List<WebElement> cells = row.findElements(this.cells);
+        List<WebElement> cellElements = row.findElements(cells);
         Map<String, String> rowData = new HashMap<>();
 
-        for (int i = 0; i < Math.min(headers.size(), cells.size()); i++) {
+        for (int i = 0; i < Math.min(headers.size(), cellElements.size()); i++) {
             String header = headers.get(i);
-            String cellValue = cells.get(i).getText().trim();
+            String cellValue = safeGetText(cellElements.get(i));
 
             if (!header.isEmpty()) {
                 rowData.put(header, cellValue);

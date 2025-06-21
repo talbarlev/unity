@@ -22,6 +22,4 @@ public class DataGenerator {
         return  new Random().nextInt(max - min + 1) + min;
 
     }
-
-
 }

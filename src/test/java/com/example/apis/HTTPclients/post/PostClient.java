@@ -1,5 +1,6 @@
-package com.example.apis.HTTPclients;
+package com.example.apis.HTTPclients.post;
 
+import com.example.apis.HTTPclients.HttpClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 
@@ -33,6 +34,4 @@ public class PostClient extends HttpClient {
     public Response deletePostById(String postId) {
         return postRequest("/records/" + postId + "/delete");
     }
-
-
 }
