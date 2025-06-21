@@ -20,7 +20,7 @@ public class PublisherPage extends ListBasePage {
 
 
         return new PublisherData.Builder()
-                .name(rowData.get(COLUMN_NAME)) // שם הכותרת המדויק בטבלה
+                .name(rowData.get(COLUMN_NAME))
                 .email(rowData.get(COLUMN_EMAIL))
                 .id(rowData.get(COLUMN_ID))
                 .build();

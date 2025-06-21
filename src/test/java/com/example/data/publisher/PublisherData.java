@@ -24,7 +24,7 @@ public class PublisherData {
     }
 
     public static class Builder {
-        private String id; // אפשרי או null
+        private String id;
         private String name;
         private String email;
 

@@ -19,7 +19,7 @@ public class JsonItemComponent extends BasePage {
         safeTypeText(jsonString(), item.getString());
 
         if (item.getBool()) {
-            safeClick(jsonBoolean()); // רק אם true
+            safeClick(jsonBoolean());
         }
 
         safeTypeText(jsonDate(), item.getDate());
