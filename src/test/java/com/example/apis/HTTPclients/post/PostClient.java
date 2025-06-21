@@ -1,6 +1,7 @@
 package com.example.apis.HTTPclients.post;
 
 import com.example.apis.HTTPclients.HttpClient;
+import com.example.data.common.Properties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 
@@ -8,10 +9,9 @@ import java.util.Map;
 
 
 public class PostClient extends HttpClient {
-
     public PostClient(String token) {
         super(token);
-        setBaseUrl("http://localhost:3000/admin/api/resources/Post");
+        setBaseUrl(Properties.BASEURL_API + "Post");
     }
 
     public Response createNewPost(Object requestBody) {

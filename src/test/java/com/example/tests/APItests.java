@@ -34,6 +34,10 @@ public class APItests {
 
         PublisherCreateRequest createPublisherRequest = new PublisherCreateRequest(publisherName, publisherEmail);
         Response createPubliserResponse = publisherClient.createPublisher(createPublisherRequest);
+        System.out.println("Status: " + createPubliserResponse.statusCode());
+        System.out.println("Content-Type: " + createPubliserResponse.getContentType());
+        System.out.println("Body:\n" + createPubliserResponse.getBody().asString());
+
         createdPublisherId = createPubliserResponse.path("record.params.id").toString();
 
         PostCreateRequest createPostData = new PostCreateRequest(postTitle, postContent, PostStatus.ACTIVE, true, createdPublisherId, null);
