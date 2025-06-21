@@ -1,5 +1,6 @@
 package com.example.apis.HTTPclients;
 
+import com.example.utills.TestLogger;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.*;
@@ -17,41 +18,42 @@ public abstract class HttpClient {
     }
 
     protected Response getRequest(String endpoint) {
+        TestLogger.step("📤 GET -> " + baseUrl + endpoint);
+
         return given()
                 .contentType("application/json")
                 .cookie("adminjs", token)
-                .log().all()
                 .when()
                 .get(baseUrl + endpoint)
                 .then()
-                .log().all()
                 .extract()
                 .response();
     }
 
     protected Response postRequest(String endpoint, Object body) {
+        TestLogger.step("📤 POST -> " + baseUrl + endpoint);
+        TestLogger.json(body, "Request Body");
+
         return given()
                 .contentType("application/json")
                 .cookie("adminjs", token)
                 .body(body)
-                .log().all()
                 .when()
                 .post(baseUrl + endpoint)
                 .then()
-                .log().all()
                 .extract()
                 .response();
     }
 
-        protected Response postRequest(String endpoint) {
+    protected Response postRequest(String endpoint) {
+        TestLogger.step("📤 POST -> " + baseUrl + endpoint);
+
         return given()
                 .contentType("application/json")
                 .cookie("adminjs", token)
-                .log().all()
                 .when()
                 .post(baseUrl + endpoint)
                 .then()
-                .log().all()
                 .extract()
                 .response();
     }

@@ -6,8 +6,16 @@ import java.util.Random;
 
 public class DataGenerator {
 
+    private DataGenerator() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
     public static String generateTimestamp() {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
+    }
+
+    public static String generateTimestampDetailed() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     public static String generateUniqueName(String prefix) {

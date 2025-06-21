@@ -19,7 +19,6 @@ import com.example.utills.DataGenerator;
 import org.testng.annotations.*;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
 
 public class PostTests extends BaseTest {
 

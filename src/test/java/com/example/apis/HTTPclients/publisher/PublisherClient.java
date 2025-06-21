@@ -1,6 +1,7 @@
-package com.example.apis.HTTPclients;
+package com.example.apis.HTTPclients.publisher;
 
 
+import com.example.apis.HTTPclients.HttpClient;
 import io.restassured.response.Response;
 
 public class PublisherClient extends HttpClient {

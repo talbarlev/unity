@@ -1,9 +1,12 @@
 package com.example.utills;
 
 import com.example.apis.HTTPclients.post.PostClient;
-import com.example.apis.HTTPclients.PublisherClient;
+import com.example.apis.HTTPclients.publisher.PublisherClient;
 
 public class CommonAPI {
+    private CommonAPI() {
+        throw new UnsupportedOperationException("Utility class");
+    }
 
     public static void deletePublisherAndPost(String postId, String publisherId, String cookie) {
         if (cookie == null || postId == null || publisherId == null) {

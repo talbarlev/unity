@@ -3,14 +3,13 @@ package com.example.tests;
 import com.example.apis.AuthUtills;
 import com.example.apis.HTTPclients.post.PostClient;
 import com.example.apis.HTTPclients.post.PostCreateRequest;
-import com.example.apis.HTTPclients.PublisherClient;
+import com.example.apis.HTTPclients.publisher.PublisherClient;
 import com.example.apis.HTTPclients.publisher.PublisherCreateRequest;
 import com.example.data.post.PostStatus;
 import com.example.utills.CommonAPI;
 import com.example.utills.DataGenerator;
 import io.restassured.response.Response;
 import org.testng.annotations.*;
-
 import static org.testng.Assert.assertEquals;
 
 public class APItests {
@@ -35,7 +34,6 @@ public class APItests {
 
         PublisherCreateRequest createPublisherRequest = new PublisherCreateRequest(publisherName, publisherEmail);
         Response createPubliserResponse = publisherClient.createPublisher(createPublisherRequest);
-
         createdPublisherId = createPubliserResponse.path("record.params.id").toString();
 
         PostCreateRequest createPostData = new PostCreateRequest(postTitle, postContent, PostStatus.ACTIVE, true, createdPublisherId, null);

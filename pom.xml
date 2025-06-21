@@ -35,11 +35,10 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- SLF4J Logger to suppress warnings -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>2.0.13</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.20.0</version>
         </dependency>
 
         <dependency>
@@ -61,7 +60,13 @@
             <version>2.2</version>
             <scope>test</scope>
         </dependency>
-        <!-- Optional: Selenium DevTools for Chrome 137 -->
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
