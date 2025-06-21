@@ -22,8 +22,6 @@ public class PostPage extends ListBasePage {
     public PostData getPostByTitle(String title) {
         Map<String, String> rowData = this.getRowDataByText(title);
 
-        System.out.println("📄 rowData: " + rowData);
-
         boolean isPublished = rowData.getOrDefault(COLUMN_PUBLISHED, "").equalsIgnoreCase("true");
 
         return new PostData.Builder()

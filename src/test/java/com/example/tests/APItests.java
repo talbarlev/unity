@@ -49,17 +49,17 @@ public class APItests {
         Response editPostResponse = postClient.editPostById(editPostData, createdPostId);
 
         Response getPostByIdAfterEditResponse = postClient.getPostById(createdPostId);
-        getPostByIdAfterEditResponse.then().statusCode(200);
 
         assertEquals(createPubliserResponse.statusCode(), 200);
         assertEquals(createPostResponse.statusCode(), 200);
         assertEquals(editPostResponse.statusCode(), 200);
 
+
         assertEquals(editPostResponse.path("record.params.title"), editPostData.getTitle());
         assertEquals(createPostResponse.path("record.params.status"), PostStatus.ACTIVE.toString());
         assertEquals(editPostResponse.path("record.params.status"), PostStatus.REMOVED.toString());
+        assertEquals(getPostByIdAfterEditResponse.path("record.params.status"), PostStatus.REMOVED.toString());
     }
-
 
     @AfterClass
     public void deleteAllData() {

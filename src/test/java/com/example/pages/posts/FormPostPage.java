@@ -9,14 +9,13 @@ import org.openqa.selenium.WebDriver;
 public class FormPostPage extends FormBasePage<PostData> {
     private final By titleInput = By.id("title");
     private final By contentInput = By.id("content");
-    private final By publishedCheckbox = By.id("published");
+    private final By publishedCheckbox = By.cssSelector("#published + a");
     private final By addJSON = By.cssSelector("[data-testid='someJson-add']");
     private final By formLocator = By.cssSelector("form[data-css='Post-new-form']");
 
     public FormPostPage(WebDriver driver) {
         super(driver);
     }
-
 
     @Override
     public void create(PostData data) {

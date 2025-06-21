@@ -34,7 +34,7 @@ public class JsonItemComponent extends BasePage {
     }
 
     private By jsonBoolean() {
-        return By.cssSelector("#someJson\\." + index + "\\.boolean");
+        return By.cssSelector("#someJson\\." + index + "\\.boolean + a");
     }
 
     private By jsonDate() {

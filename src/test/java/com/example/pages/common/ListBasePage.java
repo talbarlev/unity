@@ -75,7 +75,6 @@ public abstract class ListBasePage extends HomePage {
         for (WebElement row : allRows) {
             String rowText = safeGetText(row);
             if (rowText.contains(expectedText)) {
-                TestLogger.step("🔍 Matching row found: " + rowText);
                 return row;
             }
         }
@@ -94,7 +93,7 @@ public abstract class ListBasePage extends HomePage {
 
             if (!header.isEmpty()) {
                 rowData.put(header, cellValue);
-                TestLogger.step("➡️ " + header + " = " + cellValue);
+                TestLogger.step(header + " = " + cellValue);
             } else {
                 TestLogger.warning("Skipping cell with empty header: '" + cellValue + "'");
             }

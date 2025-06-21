@@ -51,7 +51,7 @@ public abstract class BasePage {
                 attempts++;
             }
         }
-        TestLogger.error("❌ Failed to type text after 3 attempts: " + locator);
+        TestLogger.error("Failed to type text after 3 attempts: " + locator);
         throw new RuntimeException("❌ Failed to type text after 3 attempts: " + locator);
     }
 
@@ -68,7 +68,7 @@ public abstract class BasePage {
                 TestLogger.warning("🔁 Click failed. Attempt #" + (attempts + 1));
                 attempts++;
             } catch (Exception e) {
-                TestLogger.warning("⚠️ Unexpected click error: " + e.getMessage());
+                TestLogger.warning("Unexpected click error: " + e.getMessage());
                 break;
             }
         }
@@ -80,7 +80,7 @@ public abstract class BasePage {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fallback);
         } catch (Exception jsEx) {
             TestLogger.error("❌ JS click failed on: " + locator);
-            throw new RuntimeException("❌ JS click failed on: " + locator, jsEx);
+            throw new RuntimeException("❌ JS click failed on: " + locator);
         }
     }
 
@@ -97,7 +97,7 @@ public abstract class BasePage {
                 TestLogger.warning("🔁 Element click failed. Attempt #" + (attempts + 1));
                 attempts++;
             } catch (Exception e) {
-                TestLogger.warning("⚠️ Unexpected click error: " + e.getMessage());
+                TestLogger.warning("Unexpected click error: " + e.getMessage());
                 break;
             }
         }
