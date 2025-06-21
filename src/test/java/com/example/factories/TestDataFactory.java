@@ -7,7 +7,6 @@ import com.example.data.publisher.PublisherData;
 import com.example.utills.DataGenerator;
 
 public class TestDataFactory {
-
     public static PublisherData createPublisher(String name, String email) {
         return new PublisherData.Builder()
                 .name(name)
@@ -15,20 +14,19 @@ public class TestDataFactory {
                 .build();
     }
 
-
-    public static PostData createPostData(String title, String content, PostStatus status,
-                                          boolean published, String publisherIdOrEmail) {
+    public static PostData createPost(String title, String content, PostStatus status,
+                                      boolean published, String publisherIdOrEmail) {
         return new PostData.Builder()
                 .title(title)
                 .content(content)
                 .status(status.toString())
                 .published(published)
                 .publisher(publisherIdOrEmail)
-                .addJsonItem(createJsonItemData())
+                .addJsonItem(createJsonItem())
                 .build();
     }
 
-    public static JsonItemData createJsonItemData() {
+    public static JsonItemData createJsonItem() {
         return new JsonItemData.Builder()
                 .number(DataGenerator.randonNumber(1, 10))
                 .string(DataGenerator.generateUniqueName("string"))

@@ -59,7 +59,7 @@ public class PostTests extends BaseTest {
         var postPage = new PostPage(driver);
         postPage.clickOnCreate();
 
-        PostData postDataForm = TestDataFactory.createPostData(postTitle, postContent, PostStatus.ACTIVE, true, publisherEmail);
+        PostData postDataForm = TestDataFactory.createPost(postTitle, postContent, PostStatus.ACTIVE, true, publisherEmail);
         var createPostPage = new FormPostPage(driver);
         createPostPage.create(postDataForm);
 

@@ -6,7 +6,7 @@ import com.example.pages.common.FormBasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class FormPostPage extends FormBasePage {
+public class FormPostPage extends FormBasePage<PostData> {
     private final By titleInput = By.id("title");
     private final By contentInput = By.id("content");
     private final By publishedCheckbox = By.id("published");
@@ -17,17 +17,11 @@ public class FormPostPage extends FormBasePage {
         super(driver);
     }
 
+
     @Override
-    public void create(Object data) {
-        if (!(data instanceof PostData)) {
-            throw new IllegalArgumentException("Expected PostData");
-        }
-
-
-        PostData postData = (PostData) data;
-
-        fillBasicFields(postData);
-        fillJsonItems(postData);
+    public void create(PostData data) {
+        fillBasicFields(data);
+        fillJsonItems(data);
         clickOnSave();
     }
 

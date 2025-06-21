@@ -4,7 +4,7 @@ import com.example.pages.main.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public abstract class FormBasePage extends HomePage {
+public abstract class FormBasePage<T> extends HomePage {
 
     protected By saveButton = By.cssSelector("[data-testid='button-save']");
 
@@ -16,7 +16,5 @@ public abstract class FormBasePage extends HomePage {
         safeClick(saveButton);
     }
 
-    public abstract void create(Object data);
-
-
+    public abstract void create(T data);
 }

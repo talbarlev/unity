@@ -1,6 +1,7 @@
 package com.example.pages.common;
 
 import com.example.pages.main.HomePage;
+import com.example.utills.TestLogger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,35 +41,29 @@ public abstract class ListBasePage extends HomePage {
         hoverActionsButtonInRow(expectedText);
 
         WebElement editButtonOfRow = findMatchingRow(expectedText).findElement(editButton);
+
         safeClick(editButtonOfRow);
     }
 
     public void hoverActionsButtonInRow(String expectedText) {
         WebElement matchingRow = findMatchingRow(expectedText);
-        WebElement actionsButton = matchingRow.findElement(settingsButton);
 
+        WebElement actionsButton = matchingRow.findElement(settingsButton);
         wait.until(ExpectedConditions.visibilityOf(actionsButton));
         hoverOnElement(actionsButton);
     }
 
     private void waitForTableToLoad() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(headers));
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(rows));
     }
 
     private List<String> extractHeaders() {
         List<WebElement> headerElements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(headers));
-
-        System.out.println("🧠 Number of headers: " + headerElements.size());
+        TestLogger.info("🧠 Number of headers: " + headerElements.size());
         for (WebElement header : headerElements) {
-            System.out.println("📋 Header: " + header.getText());
+            TestLogger.info("📋 Header: " + header.getText());
         }
-
         return headerElements.stream()
                 .map(el -> el.getText().trim())
                 .toList();
@@ -78,15 +73,14 @@ public abstract class ListBasePage extends HomePage {
         List<WebElement> allRows = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(rows));
 
         for (WebElement row : allRows) {
-            wait.until(ExpectedConditions.visibilityOf(row));
             String rowText = safeGetText(row);
-
             if (rowText.contains(expectedText)) {
-                System.out.println("🔍 Matching row found: " + rowText);
+                TestLogger.step("🔍 Matching row found: " + rowText);
                 return row;
             }
         }
 
+        TestLogger.error("❌ Row with text '" + expectedText + "' was not found.");
         throw new RuntimeException("❌ Row with text '" + expectedText + "' was not found.");
     }
 
@@ -100,13 +94,13 @@ public abstract class ListBasePage extends HomePage {
 
             if (!header.isEmpty()) {
                 rowData.put(header, cellValue);
-                System.out.println("➡️ " + header + " = " + cellValue);
+                TestLogger.step("➡️ " + header + " = " + cellValue);
             } else {
-                System.out.println("⚠️ Skipping cell with empty header: '" + cellValue + "'");
+                TestLogger.warning("Skipping cell with empty header: '" + cellValue + "'");
             }
         }
 
-        System.out.println("✅ Final rowData: " + rowData);
+        TestLogger.json(rowData, "✅ Final rowData");
         return rowData;
     }
 }

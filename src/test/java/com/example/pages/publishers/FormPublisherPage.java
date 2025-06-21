@@ -5,7 +5,7 @@ import com.example.pages.common.FormBasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class FormPublisherPage extends FormBasePage {
+public class FormPublisherPage extends FormBasePage<PublisherData> {
 
     private By nameInput = By.id("name");
     private By emailInput = By.id("email");
@@ -15,15 +15,9 @@ public class FormPublisherPage extends FormBasePage {
     }
 
     @Override
-    public void create(Object data) {
-        if (!(data instanceof PublisherData)) {
-            throw new IllegalArgumentException("Expected PublisherData");
-        }
-
-        PublisherData publisherData = (PublisherData) data;
-
-        this.enterName(publisherData.getName());
-        this.enterEmail(publisherData.getEmail());
+    public void create(PublisherData data) {
+        this.enterName(data.getName());
+        this.enterEmail(data.getEmail());
         this.clickOnSave();
     }
 

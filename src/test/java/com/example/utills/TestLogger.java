@@ -4,9 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.testng.Reporter;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class TestLogger {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -39,5 +36,9 @@ public class TestLogger {
         } catch (Exception e) {
             error("⚠️ Failed to serialize object to JSON: " + e.getMessage());
         }
+    }
+
+    public static void warning(String message) {
+        log("⚠️ WARNING: " + message);
     }
 }
