@@ -35,25 +35,23 @@ public class APItests {
 
         PublisherCreateRequest createPublisherRequest = new PublisherCreateRequest(publisherName, publisherEmail);
         Response createPubliserResponse = publisherClient.createPublisher(createPublisherRequest);
-        createPubliserResponse.then().statusCode(200);
-        System.out.println("📦 Publisher Response: " + createPubliserResponse.asPrettyString());
 
         createdPublisherId = createPubliserResponse.path("record.params.id").toString();
 
         PostCreateRequest createPostData = new PostCreateRequest(postTitle, postContent, PostStatus.ACTIVE, true, createdPublisherId, null);
         Response createPostResponse = postClient.createNewPost(createPostData);
-        createPostResponse.then().statusCode(200);
-        System.out.println("📦 Post Create Response: " + createPostResponse.asPrettyString());
 
         createdPostId = createPostResponse.path("record.params.id").toString();
 
         PostCreateRequest editPostData = new PostCreateRequest(postTitle, postContent, PostStatus.REMOVED, true, createdPublisherId, null);
         Response editPostResponse = postClient.editPostById(editPostData, createdPostId);
-        editPostResponse.then().statusCode(200);
-        System.out.println("📦 Post Edit Response: " + editPostResponse.asPrettyString());
 
         Response getPostByIdAfterEditResponse = postClient.getPostById(createdPostId);
         getPostByIdAfterEditResponse.then().statusCode(200);
+
+        assertEquals(createPubliserResponse.statusCode(), 200);
+        assertEquals(createPostResponse.statusCode(), 200);
+        assertEquals(editPostResponse.statusCode(), 200);
 
         assertEquals(editPostResponse.path("record.params.title"), editPostData.getTitle());
         assertEquals(createPostResponse.path("record.params.status"), PostStatus.ACTIVE.toString());

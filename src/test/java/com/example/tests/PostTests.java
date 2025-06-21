@@ -18,6 +18,9 @@ import com.example.utills.CommonUI;
 import com.example.utills.DataGenerator;
 import org.testng.annotations.*;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
+
 public class PostTests extends BaseTest {
 
     private static String cookie;
@@ -49,8 +52,8 @@ public class PostTests extends BaseTest {
         var createPublisherPage = new FormPublisherPage(driver);
         createPublisherPage.create(publisherDataForm);
 
-        var created = publisherPage.getPublisherByName(publisherName);
-        createdPublisherId = created.getId();
+        var publisherCreated = publisherPage.getPublisherByName(publisherName);
+        createdPublisherId = publisherCreated.getId();
 
         publisherPage.sideNavebar().navigateToFolder(Folder.POST);
 
@@ -61,12 +64,19 @@ public class PostTests extends BaseTest {
         var createPostPage = new FormPostPage(driver);
         createPostPage.create(postDataForm);
 
-        createdPostId = String.valueOf(postPage.getPostByTitle(postTitle).getId());
+        var postCreated = postPage.getPostByTitle(postTitle);
+        createdPostId = String.valueOf(postCreated.getId());
 
         postPage.clickOnEditInRow(postDataForm.getTitle());
         var editPostPage = new FormPostPage(driver);
+
         editPostPage.selectStatus(PostStatus.REMOVED.toString());
         editPostPage.clickOnSave();
+
+        var postEdited = postPage.getPostByTitle(postTitle);
+
+        assertEquals(postCreated.getStatus(), PostStatus.ACTIVE.toString());
+        assertEquals(postEdited.getStatus(), PostStatus.REMOVED.toString());
     }
 
     @AfterClass
