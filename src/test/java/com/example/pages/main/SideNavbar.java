@@ -11,12 +11,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 
 public class SideNavbar extends BasePage {
-
     private String folderTextLocator = "//a[div[text()='%s']]";
     private By happyFolderToggle = By.xpath("//div[text()='Happy Folder']/ancestor::a");
     private By happyFolderOptions = By.xpath("following-sibling::ul");
-    private By foldersLcoator = By.cssSelector("div[data-testid='sidebar-folder-list']");
-
 
     public SideNavbar(WebDriver driver) {
         super(driver);

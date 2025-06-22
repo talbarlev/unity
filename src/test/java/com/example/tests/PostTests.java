@@ -16,6 +16,7 @@ import com.example.pages.publishers.PublisherPage;
 import com.example.utills.CommonAPI;
 import com.example.utills.CommonUI;
 import com.example.utills.DataGenerator;
+import com.example.utills.TestLogger;
 import org.testng.annotations.*;
 
 import static org.testng.Assert.assertEquals;
@@ -80,7 +81,7 @@ public class PostTests extends BaseTest {
 
     @AfterClass
     public void deleteTestData() {
-        System.out.println("🧼 Cleaning test data");
+        TestLogger.info("🧼 Cleaning test data");
         CommonAPI.deletePublisherAndPost(createdPostId, createdPublisherId, cookie);
     }
 }

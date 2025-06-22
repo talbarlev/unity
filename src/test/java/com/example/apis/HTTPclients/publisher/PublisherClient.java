@@ -6,7 +6,6 @@ import com.example.data.common.Properties;
 import io.restassured.response.Response;
 
 public class PublisherClient extends HttpClient {
-
     public PublisherClient(String token) {
         super(token);
         setBaseUrl(Properties.BASEURL_API + "Publisher");

@@ -10,6 +10,8 @@ import com.example.utills.CommonAPI;
 import com.example.utills.DataGenerator;
 import io.restassured.response.Response;
 import org.testng.annotations.*;
+
+
 import static org.testng.Assert.assertEquals;
 
 public class APItests {
@@ -34,9 +36,6 @@ public class APItests {
 
         PublisherCreateRequest createPublisherRequest = new PublisherCreateRequest(publisherName, publisherEmail);
         Response createPubliserResponse = publisherClient.createPublisher(createPublisherRequest);
-        System.out.println("Status: " + createPubliserResponse.statusCode());
-        System.out.println("Content-Type: " + createPubliserResponse.getContentType());
-        System.out.println("Body:\n" + createPubliserResponse.getBody().asString());
 
         createdPublisherId = createPubliserResponse.path("record.params.id").toString();
 
@@ -53,7 +52,6 @@ public class APItests {
         assertEquals(createPubliserResponse.statusCode(), 200);
         assertEquals(createPostResponse.statusCode(), 200);
         assertEquals(editPostResponse.statusCode(), 200);
-
 
         assertEquals(editPostResponse.path("record.params.title"), editPostData.getTitle());
         assertEquals(createPostResponse.path("record.params.status"), PostStatus.ACTIVE.toString());

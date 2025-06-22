@@ -10,7 +10,7 @@ public class CommonAPI {
 
     public static void deletePublisherAndPost(String postId, String publisherId, String cookie) {
         if (cookie == null || postId == null || publisherId == null) {
-            System.out.println("⚠️ Not all data was created successfully. Skipping deletion.");
+            TestLogger.warning(" Not all data was created successfully. Skipping deletion.");
             return;
         }
 

@@ -24,11 +24,10 @@ public class PostClient extends HttpClient {
 
     public Response editPostById(Object requestBody, String postId) {
         ObjectMapper mapper = new ObjectMapper();
-
         Map<String, Object> body = mapper.convertValue(requestBody, Map.class);
         body.put("recordId", postId);
 
-        return postRequest("/records/" + postId + "/edit", requestBody);
+        return postRequest("/records/" + postId + "/edit", body);
     }
 
     public Response deletePostById(String postId) {

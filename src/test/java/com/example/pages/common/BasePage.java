@@ -13,7 +13,6 @@ import java.time.Duration;
  * Provides reusable and safe interaction methods for Selenium tests.
  */
 public abstract class BasePage {
-
     protected WebDriver driver;
     protected WebDriverWait wait;
     protected Actions actions;
@@ -79,7 +78,7 @@ public abstract class BasePage {
             WebElement fallback = driver.findElement(locator);
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fallback);
         } catch (Exception jsEx) {
-            TestLogger.error("❌ JS click failed on: " + locator);
+            TestLogger.error("JS click failed on: " + locator);
             throw new RuntimeException("❌ JS click failed on: " + locator);
         }
     }
@@ -107,7 +106,7 @@ public abstract class BasePage {
             TestLogger.warning("🧪 Falling back to JS click on WebElement instance");
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
         } catch (Exception jsEx) {
-            TestLogger.error("❌ JS click failed on WebElement");
+            TestLogger.error("JS click failed on WebElement");
             throw new RuntimeException("❌ JS click failed on WebElement", jsEx);
         }
     }
@@ -118,7 +117,7 @@ public abstract class BasePage {
             TestLogger.step("🔍 Getting text from: " + locator);
             return waitForVisibility(locator).getText();
         } catch (StaleElementReferenceException e) {
-            TestLogger.warning("⚠️ Retrying stale text read from: " + locator);
+            TestLogger.warning("Retrying stale text read from: " + locator);
             return waitForVisibility(locator).getText();
         }
     }
@@ -129,7 +128,7 @@ public abstract class BasePage {
             wait.until(ExpectedConditions.visibilityOf(element));
             return element.getText();
         } catch (StaleElementReferenceException e) {
-            TestLogger.error("❌ Element is stale. Need locator for recovery.");
+            TestLogger.error("Element is stale. Need locator for recovery.");
             throw new RuntimeException("❌ Element is stale. Need locator for recovery.");
         }
     }
@@ -149,7 +148,7 @@ public abstract class BasePage {
 
     /** 🖱 Hover over element */
     protected void hoverOnElement(WebElement element) {
-        TestLogger.step("🖱 Hovering over element");
+        TestLogger.step("Hovering over element");
         actions.moveToElement(element).perform();
     }
 
