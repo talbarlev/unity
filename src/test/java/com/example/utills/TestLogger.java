@@ -9,21 +9,10 @@ public class TestLogger {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final boolean USE_REPORTER_LOG = true;
 
-
     private TestLogger() {
         throw new UnsupportedOperationException("Utility class");
     }
 
-    private static void logAndAllure(String prefix, String message, boolean isStep) {
-        String timestamp = DataGenerator.generateTimestampDetailed();
-        String finalMessage = "[" + timestamp + "] " + prefix + message;
-
-        Reporter.log(finalMessage, true);
-
-        if (isStep) {
-            Allure.step(message);
-        }
-    }
 
     public static void info(String message) {
         logAndAllure("INFO: ", message, false);
@@ -50,6 +39,17 @@ public class TestLogger {
             Allure.addAttachment(title, "application/json", prettyJson, ".json");
         } catch (Exception e) {
             error("⚠️ Failed to serialize object to JSON: " + e.getMessage());
+        }
+    }
+
+    private static void logAndAllure(String prefix, String message, boolean isStep) {
+        String timestamp = DataGenerator.generateTimestampDetailed();
+        String finalMessage = "[" + timestamp + "] " + prefix + message;
+
+        Reporter.log(finalMessage, true);
+
+        if (isStep) {
+            Allure.step(message);
         }
     }
 }

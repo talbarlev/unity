@@ -18,12 +18,10 @@ public class PublisherPage extends ListBasePage {
     public PublisherData getPublisherByName(String name) {
         Map<String, String> rowData = this.getRowDataByText(name);
 
-
         return new PublisherData.Builder()
                 .name(rowData.get(COLUMN_NAME))
                 .email(rowData.get(COLUMN_EMAIL))
                 .id(rowData.get(COLUMN_ID))
                 .build();
     }
-
 }

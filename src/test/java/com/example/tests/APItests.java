@@ -36,22 +36,21 @@ public class APItests {
 
         PublisherCreateRequest createPublisherRequest = new PublisherCreateRequest(publisherName, publisherEmail);
         Response createPubliserResponse = publisherClient.createPublisher(createPublisherRequest);
+        assertEquals(createPubliserResponse.statusCode(), 200);
 
         createdPublisherId = createPubliserResponse.path("record.params.id").toString();
 
         PostCreateRequest createPostData = new PostCreateRequest(postTitle, postContent, PostStatus.ACTIVE, true, createdPublisherId, null);
         Response createPostResponse = postClient.createNewPost(createPostData);
+        assertEquals(createPostResponse.statusCode(), 200);
 
         createdPostId = createPostResponse.path("record.params.id").toString();
 
         PostCreateRequest editPostData = new PostCreateRequest(postTitle, postContent, PostStatus.REMOVED, true, createdPublisherId, null);
         Response editPostResponse = postClient.editPostById(editPostData, createdPostId);
+        assertEquals(editPostResponse.statusCode(), 200);
 
         Response getPostByIdAfterEditResponse = postClient.getPostById(createdPostId);
-
-        assertEquals(createPubliserResponse.statusCode(), 200);
-        assertEquals(createPostResponse.statusCode(), 200);
-        assertEquals(editPostResponse.statusCode(), 200);
 
         assertEquals(editPostResponse.path("record.params.title"), editPostData.getTitle());
         assertEquals(createPostResponse.path("record.params.status"), PostStatus.ACTIVE.toString());

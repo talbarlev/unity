@@ -18,6 +18,12 @@ public class AdminLoginPage extends BasePage {
         driver.get("http://localhost:3000/admin/login");
     }
 
+    public void login(String username, String password) {
+        this.enterUsername(username);
+        this.enterPassword(password);
+        this.clickLogin();
+    }
+
     protected void enterUsername(String username) {
         safeTypeText(usernameInput, username);
     }
@@ -28,11 +34,5 @@ public class AdminLoginPage extends BasePage {
 
     protected void clickLogin() {
         safeClick(loginButton);
-    }
-
-    public void login(String username, String password) {
-        this.enterUsername(username);
-        this.enterPassword(password);
-        this.clickLogin();
     }
 }

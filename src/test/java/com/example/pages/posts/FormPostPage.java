@@ -24,6 +24,10 @@ public class FormPostPage extends FormBasePage<PostData> {
         clickOnSave();
     }
 
+    public void selectStatus(String status) {
+        selectReactOptionByLabel("Status", status);
+    }
+
     private void fillBasicFields(PostData postData) {
         safeTypeText(titleInput, postData.getTitle());
         safeTypeText(contentInput, postData.getContent());
@@ -36,17 +40,12 @@ public class FormPostPage extends FormBasePage<PostData> {
         selectReactOptionByLabel("Publisher", postData.getPublisher());
     }
 
-
     private void fillJsonItems(PostData postData) {
         for (int i = 0; i < postData.getJsonItems().size(); i++) {
             JsonItemData item = postData.getJsonItems().get(i);
             clickAddJson();
             new JsonItemComponent(driver, i).fill(item); // ממלא אותו לפי האינדקס
         }
-    }
-
-    public void selectStatus(String status) {
-        selectReactOptionByLabel("Status", status);
     }
 
     private void clickAddJson() {
