@@ -22,7 +22,7 @@ public class PostPage extends ListBasePage {
     public PostData getPostByTitle(String title) {
         Map<String, String> rowData = this.getRowDataByText(title);
 
-        boolean isPublished = rowData.getOrDefault(COLUMN_PUBLISHED, "").equalsIgnoreCase("true");
+        boolean isPublished = rowData.getOrDefault(COLUMN_PUBLISHED, "").equalsIgnoreCase("Yes");
 
         return new PostData.Builder()
                 .title(rowData.get(COLUMN_TITLE))
