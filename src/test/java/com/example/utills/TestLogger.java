@@ -7,7 +7,6 @@ import org.testng.Reporter;
 
 public class TestLogger {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final boolean USE_REPORTER_LOG = true;
 
     private TestLogger() {
         throw new UnsupportedOperationException("Utility class");
